@@ -1,5 +1,5 @@
 /*
- * @(#)PersistenceProviderNodeProvider.java   10/04/20
+ * @(#)ProviderNodeProvider.java   10/04/20
  *
  * Copyright (c) 2010 Roger Suen(SUNRUJUN)
  *
@@ -28,9 +28,9 @@ import java.util.List;
  *
  * @author Roger Suen
  */
-public class PersistenceProviderNodeProvider implements NodeProvider {
+public class ProviderNodeProvider implements NodeProvider {
     private static final NodeProvider instance =
-        new PersistenceProviderNodeProvider();
+        new ProviderNodeProvider();
 
     public static NodeProvider getInstance() {
         return instance;
@@ -44,7 +44,7 @@ public class PersistenceProviderNodeProvider implements NodeProvider {
             InstanceContent ic = new InstanceContent();
             ic.add(provider);    // PeristenceProvider
             nodes.add(
-                PersistenceProviderNode.getInstance(new AbstractLookup(ic)));
+                ProviderNode.getInstance(new AbstractLookup(ic)));
         }
 
         return nodes.toArray(new Node[nodes.size()]);

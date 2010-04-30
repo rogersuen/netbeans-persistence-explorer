@@ -14,40 +14,42 @@
 package org.javaplus.netbeans.persistence.explorer.node;
 
 import org.javaplus.netbeans.api.persistence.explorer.node.PersistenceExplorerNode;
+import org.openide.util.Lookup;
 import org.openide.util.NbBundle;
 
+import java.util.Collection;
 
 /**
  *
  * @author Roger Suen
  */
-public class PersistenceProvidersNode extends PersistenceExplorerNode {
-    public static final String LAYER_FOLDER = "PersistenceProvidersNode";
+public class UnitListNode extends PersistenceExplorerNode {
+    public static final String LAYER_FOLDER = "UnitListNode";
     private static final String ICON_BASE =
         "org/javaplus/netbeans/persistence/resources/persistence.gif";
-    private static PersistenceProvidersNode instance;
+    private static UnitListNode instance;
 
-    private PersistenceProvidersNode() {
+    private UnitListNode() {
         super();
         initProperties();
     }
 
-    public static PersistenceProvidersNode getInstance() {
+    public static UnitListNode getInstance() {
         if (instance == null) {
-            instance = new PersistenceProvidersNode();
+            instance = new UnitListNode();
         }
 
         return instance;
     }
 
-    private void initProperties() {
-        setName("PersistenceProviders");
+    private  void initProperties() {
+        setName("UnitListNode");
         setDisplayName(
             NbBundle.getMessage(
-                PersistenceProvidersNode.class,
-                "PersistenceProvidersNode.DISPLAY_NAME"));
-        setShortDescription(NbBundle.getMessage(PersistenceProvidersNode.class,
-                "PersistenceProvidersNode.SHORT_DESCRIPTION"));
+                UnitListNode.class,
+                "UnitListNode.DISPLAY_NAME"));
+        setShortDescription(NbBundle.getMessage(UnitListNode.class,
+                "UnitListNode.SHORT_DESCRIPTION"));
         setIconBaseWithExtension(ICON_BASE);
     }
 

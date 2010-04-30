@@ -1,5 +1,5 @@
 /*
- * @(#)PersistenceUnitNodeProvider.java   10/04/20
+ * @(#)UnitNodeProvider.java   10/04/20
  *
  * Copyright (c) 2010 Roger Suen(SUNRUJUN)
  *
@@ -28,12 +28,12 @@ import java.util.List;
  *
  * @author Roger Suen
  */
-public class PersistenceUnitNodeProvider implements NodeProvider {
+public class UnitNodeProvider implements NodeProvider {
     /**
      * The singleton instance.
      */
     private static final NodeProvider instance =
-        new PersistenceUnitNodeProvider();
+        new UnitNodeProvider();
 
     /**
      * Returns an instance of <tt>NodeProvider</tt>.
@@ -51,7 +51,7 @@ public class PersistenceUnitNodeProvider implements NodeProvider {
             InstanceContent ic = new InstanceContent();
             ic.add(unit);    // PersistenceUnit
             nodes.add(
-                PersistenceUnitNode.getInstance(new AbstractLookup(ic)));
+                UnitNode.getInstance(new AbstractLookup(ic)));
         }
 
         return nodes.toArray(new Node[nodes.size()]);

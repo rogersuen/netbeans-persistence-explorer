@@ -1,5 +1,5 @@
 /*
- * @(#)PersistenceProvidersNode.java   10/04/19
+ * @(#)ProviderListNode.java   10/04/19
  *
  * Copyright (c) 2010 Roger Suen(SUNRUJUN)
  *
@@ -14,42 +14,40 @@
 package org.javaplus.netbeans.persistence.explorer.node;
 
 import org.javaplus.netbeans.api.persistence.explorer.node.PersistenceExplorerNode;
-import org.openide.util.Lookup;
 import org.openide.util.NbBundle;
 
-import java.util.Collection;
 
 /**
  *
  * @author Roger Suen
  */
-public class PersistenceUnitsNode extends PersistenceExplorerNode {
-    public static final String LAYER_FOLDER = "PersistenceUnitsNode";
+public class ProviderListNode extends PersistenceExplorerNode {
+    public static final String LAYER_FOLDER = "ProviderListNode";
     private static final String ICON_BASE =
         "org/javaplus/netbeans/persistence/resources/persistence.gif";
-    private static PersistenceUnitsNode instance;
+    private static ProviderListNode instance;
 
-    private PersistenceUnitsNode() {
+    private ProviderListNode() {
         super();
         initProperties();
     }
 
-    public static PersistenceUnitsNode getInstance() {
+    public static ProviderListNode getInstance() {
         if (instance == null) {
-            instance = new PersistenceUnitsNode();
+            instance = new ProviderListNode();
         }
 
         return instance;
     }
 
-    private  void initProperties() {
-        setName("PersistenceUnits");
+    private void initProperties() {
+        setName("ProviderListNode");
         setDisplayName(
             NbBundle.getMessage(
-                PersistenceUnitsNode.class,
-                "PersistenceUnitsNode.DISPLAY_NAME"));
-        setShortDescription(NbBundle.getMessage(PersistenceUnitsNode.class,
-                "PersistenceUnitsNode.SHORT_DESCRIPTION"));
+                ProviderListNode.class,
+                "ProviderListNode.DISPLAY_NAME"));
+        setShortDescription(NbBundle.getMessage(ProviderListNode.class,
+                "ProviderListNode.SHORT_DESCRIPTION"));
         setIconBaseWithExtension(ICON_BASE);
     }
 

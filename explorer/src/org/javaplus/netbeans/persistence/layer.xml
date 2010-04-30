@@ -15,50 +15,46 @@
                     <folder name="Actions">
                     </folder>
                     <folder name="Children">
-                        <file name="PersistenceProvidersNodeProvider.instance">
-                            <attr name="instanceCreate" methodvalue="org.javaplus.netbeans.persistence.explorer.node.PersistenceProvidersNodeProvider.getInstance"/>
-                            <attr name="instanceOf" stringvalue="org.javaplus.netbeans.api.persistence.explorer.node.NodeProvider, java.lang.Object"/>
+                        <file name="ProviderListNode.instance">
+                            <attr name="instanceCreate" methodvalue="org.javaplus.netbeans.persistence.explorer.node.ProviderListNode.getInstance"/>
                             <attr name="position" intvalue="100"/>
                         </file>
-                        <file name="PersistenceUnitsNodeProvider.instance">
-                            <attr name="instanceCreate" methodvalue="org.javaplus.netbeans.persistence.explorer.node.PersistenceUnitsNodeProvider.getInstance"/>
-                            <attr name="instanceOf" stringvalue="org.javaplus.netbeans.api.persistence.explorer.node.NodeProvider, java.lang.Object"/>
+                        <file name="UnitListNode.instance">
+                            <attr name="instanceCreate" methodvalue="org.javaplus.netbeans.persistence.explorer.node.UnitListNode.getInstance"/>
                             <attr name="position" intvalue="200"/>
                         </file>
                     </folder>
                 </folder>
-                <folder name="PersistenceProvidersNode">
+                <folder name="ProviderListNode">
                     <folder name="Actions">
                     </folder>
                     <folder name="Children">
-                        <file name="PersistenceProviderNodeProvider.instance">
-                            <attr name="instanceCreate" methodvalue="org.javaplus.netbeans.persistence.explorer.node.PersistenceProviderNodeProvider.getInstance"/>
-                            <attr name="instanceOf" stringvalue="org.javaplus.netbeans.api.persistence.explorer.node.NodeProvider, java.lang.Object"/>
+                        <file name="ProviderNodeProvider.instance">
+                            <attr name="instanceCreate" methodvalue="org.javaplus.netbeans.persistence.explorer.node.ProviderNodeProvider.getInstance"/>
                             <attr name="position" intvalue="100"/>
                         </file>
                     </folder>
                 </folder>
-                <folder name="PersistenceUnitsNode">
+                <folder name="UnitListNode">
                     <folder name="Actions">
                         <file name="org-javaplus-netbeans-persistence-explorer-action-NewPersistenceUnitAction.instance">
                             <attr name="position" intvalue="100"/>
                         </file>
                     </folder>
                     <folder name="Children">
-                        <file name="PersistenceUnitNodeProvider.instance">
-                            <attr name="instanceCreate" methodvalue="org.javaplus.netbeans.persistence.explorer.node.PersistenceUnitNodeProvider.getInstance"/>
-                            <attr name="instanceOf" stringvalue="org.javaplus.netbeans.api.persistence.explorer.node.NodeProvider, java.lang.Object"/>
+                        <file name="UnitNodeProvider.instance">
+                            <attr name="instanceCreate" methodvalue="org.javaplus.netbeans.persistence.explorer.node.UnitNodeProvider.getInstance"/>
                             <attr name="position" intvalue="100"/>
                         </file>
                     </folder>
                 </folder>
-                <folder name="PersistenceProviderNode">
+                <folder name="ProviderNode">
                     <folder name="Actions">
                     </folder>
                     <folder name="Children">
                     </folder>
                 </folder>
-                <folder name="PersistenceUnitNode">
+                <folder name="UnitNode">
                     <folder name="Actions">
                     </folder>
                     <folder name="Children">
