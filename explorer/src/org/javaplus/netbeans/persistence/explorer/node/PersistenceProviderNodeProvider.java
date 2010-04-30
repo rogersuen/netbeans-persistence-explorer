@@ -1,0 +1,52 @@
+/*
+ * @(#)PersistenceProviderNodeProvider.java   10/04/20
+ *
+ * Copyright (c) 2010 Roger Suen(SUNRUJUN)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ */
+
+package org.javaplus.netbeans.persistence.explorer.node;
+
+import org.javaplus.netbeans.api.persistence.explorer.node.NodeProvider;
+import org.javaplus.netbeans.api.persistence.PersistenceProvider;
+import org.javaplus.netbeans.api.persistence.PersistenceProviderManager;
+
+import org.openide.nodes.Node;
+import org.openide.util.lookup.AbstractLookup;
+import org.openide.util.lookup.InstanceContent;
+
+import java.util.LinkedList;
+import java.util.List;
+
+/**
+ *
+ * @author Roger Suen
+ */
+public class PersistenceProviderNodeProvider implements NodeProvider {
+    private static final NodeProvider instance =
+        new PersistenceProviderNodeProvider();
+
+    public static NodeProvider getInstance() {
+        return instance;
+    }
+
+    public Node[] getNodes() {
+        List<Node> nodes = new LinkedList<Node>();
+        PersistenceProvider[] providers =
+            PersistenceProviderManager.getDefault().getProviders();
+        for (PersistenceProvider provider : providers) {
+            InstanceContent ic = new InstanceContent();
+            ic.add(provider);    // PeristenceProvider
+            nodes.add(
+                PersistenceProviderNode.getInstance(new AbstractLookup(ic)));
+        }
+
+        return nodes.toArray(new Node[nodes.size()]);
+    }
+}

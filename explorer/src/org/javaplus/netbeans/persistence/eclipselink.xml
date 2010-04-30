@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE provider PUBLIC '-//JavaPlus//DTD Persistence Provider 1.0//EN' 'http://www.javaplus.org/dtds/persistence-provider-1_0.dtd'>
+<provider version="1.0">
+    <name value='eclipselink'/>
+    <display-name value='EclipseLink(JPA2.0)'/>
+    <description value='EclipseLink, JPA 2.0 implementation provided by Oracle'/>
+    <urls>
+        <url value="nbinst:///modules/ext/eclipselink/eclipselink-2.0.0.jar"/>
+        <url value="nbinst:///modules/ext/eclipselink/eclipselink-javax.persistence-2.0.jar"/>
+    </urls>
+</provider>

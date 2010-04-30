@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE filesystem PUBLIC "-//NetBeans//DTD Filesystem 1.2//EN" "http://www.netbeans.org/dtds/filesystem-1_2.dtd">
+<filesystem>
+    <folder name="Persistence">
+        <folder name="PersistenceProviders">
+            <file name="eclipselink.xml" url="eclipselink.xml"/>
+        </folder>
+        <folder name="PersistenceUnits">
+            <file name="MyPu.xml" url="MyPu.xml"/>
+        </folder>
+
+        <folder name="Explorer">
+            <folder name="Nodes">
+                <folder name="RootNode">
+                    <folder name="Actions">
+                    </folder>
+                    <folder name="Children">
+                        <file name="PersistenceProvidersNodeProvider.instance">
+                            <attr name="instanceCreate" methodvalue="org.javaplus.netbeans.persistence.explorer.node.PersistenceProvidersNodeProvider.getInstance"/>
+                            <attr name="instanceOf" stringvalue="org.javaplus.netbeans.api.persistence.explorer.node.NodeProvider, java.lang.Object"/>
+                            <attr name="position" intvalue="100"/>
+                        </file>
+                        <file name="PersistenceUnitsNodeProvider.instance">
+                            <attr name="instanceCreate" methodvalue="org.javaplus.netbeans.persistence.explorer.node.PersistenceUnitsNodeProvider.getInstance"/>
+                            <attr name="instanceOf" stringvalue="org.javaplus.netbeans.api.persistence.explorer.node.NodeProvider, java.lang.Object"/>
+                            <attr name="position" intvalue="200"/>
+                        </file>
+                    </folder>
+                </folder>
+                <folder name="PersistenceProvidersNode">
+                    <folder name="Actions">
+                    </folder>
+                    <folder name="Children">
+                        <file name="PersistenceProviderNodeProvider.instance">
+                            <attr name="instanceCreate" methodvalue="org.javaplus.netbeans.persistence.explorer.node.PersistenceProviderNodeProvider.getInstance"/>
+                            <attr name="instanceOf" stringvalue="org.javaplus.netbeans.api.persistence.explorer.node.NodeProvider, java.lang.Object"/>
+                            <attr name="position" intvalue="100"/>
+                        </file>
+                    </folder>
+                </folder>
+                <folder name="PersistenceUnitsNode">
+                    <folder name="Actions">
+                        <file name="org-javaplus-netbeans-persistence-explorer-action-NewPersistenceUnitAction.instance">
+                            <attr name="position" intvalue="100"/>
+                        </file>
+                    </folder>
+                    <folder name="Children">
+                        <file name="PersistenceUnitNodeProvider.instance">
+                            <attr name="instanceCreate" methodvalue="org.javaplus.netbeans.persistence.explorer.node.PersistenceUnitNodeProvider.getInstance"/>
+                            <attr name="instanceOf" stringvalue="org.javaplus.netbeans.api.persistence.explorer.node.NodeProvider, java.lang.Object"/>
+                            <attr name="position" intvalue="100"/>
+                        </file>
+                    </folder>
+                </folder>
+                <folder name="PersistenceProviderNode">
+                    <folder name="Actions">
+                    </folder>
+                    <folder name="Children">
+                    </folder>
+                </folder>
+                <folder name="PersistenceUnitNode">
+                    <folder name="Actions">
+                    </folder>
+                    <folder name="Children">
+                    </folder>
+                </folder>
+                <folder name="ManagedTypesNode">
+                    <folder name="Actions">
+                    </folder>
+                    <folder name="Children">
+                        <file name="ManagedTypeNodeFactory.instance">
+                            <attr intvalue="100" name="position"/>
+                        </file>
+                    </folder>
+                </folder>
+                <folder name="EntityTypesNode">
+                    <folder name="Actions">
+                    </folder>
+                    <folder name="Children">
+                        <file name="EntityTypeNodeFactory.instance">
+                            <attr intvalue="100" name="position"/>
+                        </file>
+                    </folder>
+                </folder>
+            </folder>
+        </folder>
+    </folder>
+
+    <folder name="UI">
+        <folder name="Runtime">
+            <file name="org-javaplus-netbeans-persistence-explorer-node-RootNode.instance">
+                <attr methodvalue="org.openide.nodes.NodeOp.factory" name="instanceCreate"/>
+                <attr name="iconResource" stringvalue="org/javaplus/netbeans/persistence/resources/persistence.gif"/>
+                <attr name="name" stringvalue="Persistence"/>
+                <attr bundlevalue="org.javaplus.netbeans.persistence.explorer.node.Bundle#RootNode.DISPLAY_NAME" name="displayName"/>
+                <attr methodvalue="org.javaplus.netbeans.persistence.explorer.node.RootNode.getInstance" name="original"/>
+                <attr intvalue="121" name="position"/>
+            </file>
+        </folder>
+    </folder>
+</filesystem>
