@@ -12,6 +12,7 @@
  */
 package org.javaplus.netbeans.persistence.explorer.node;
 
+import java.util.Collections;
 import org.javaplus.netbeans.api.persistence.explorer.node.NodeProvider;
 import org.javaplus.netbeans.api.persistence.PersistenceProvider;
 import org.javaplus.netbeans.api.persistence.PersistenceProviderManager;
@@ -50,7 +51,7 @@ public class ProviderNodeProvider extends NodeProviderBase {
         return instance;
     }
 
-    public Node[] getNodes() {
+    public List<Node> getNodes() {
         List<Node> nodes = new LinkedList<Node>();
         PersistenceProvider[] providers =
                 PersistenceProviderManager.getDefault().getProviders();
@@ -61,6 +62,6 @@ public class ProviderNodeProvider extends NodeProviderBase {
                     ProviderNode.getInstance(new AbstractLookup(ic)));
         }
 
-        return nodes.toArray(new Node[nodes.size()]);
+        return Collections.unmodifiableList(nodes);
     }
 }

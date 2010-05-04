@@ -10,23 +10,20 @@
  * http://www.apache.org/licenses/LICENSE-2.0
  *
  */
-
 package org.javaplus.netbeans.persistence.explorer.node;
 
 import org.javaplus.netbeans.api.persistence.explorer.node.PersistenceExplorerNode;
-import org.openide.util.Lookup;
 import org.openide.util.NbBundle;
-
-import java.util.Collection;
 
 /**
  *
  * @author Roger Suen
  */
 public class UnitListNode extends PersistenceExplorerNode {
+
     public static final String LAYER_FOLDER = "UnitListNode";
     private static final String ICON_BASE =
-        "org/javaplus/netbeans/persistence/resources/persistence.gif";
+            "org/javaplus/netbeans/persistence/resources/persistence.gif";
     private static UnitListNode instance;
 
     private UnitListNode() {
@@ -42,15 +39,24 @@ public class UnitListNode extends PersistenceExplorerNode {
         return instance;
     }
 
-    private  void initProperties() {
+    private void initProperties() {
+        // immutable properties
         setName("UnitListNode");
-        setDisplayName(
-            NbBundle.getMessage(
-                UnitListNode.class,
-                "UnitListNode.DISPLAY_NAME"));
         setShortDescription(NbBundle.getMessage(UnitListNode.class,
                 "UnitListNode.SHORT_DESCRIPTION"));
         setIconBaseWithExtension(ICON_BASE);
+
+        // dynamic properties
+        updateProperties();
+    }
+
+    @Override
+    protected void updateProperties() {
+        // update display name
+        int childCount = getChildren().getNodesCount(true);
+        String displayName = NbBundle.getMessage(UnitListNode.class,
+                "UnitListNode.DISPLAY_NAME", childCount);
+        setDisplayName(displayName);
     }
 
     @Override

@@ -12,6 +12,7 @@
  */
 package org.javaplus.netbeans.persistence.explorer.node;
 
+import java.util.Collections;
 import org.javaplus.netbeans.api.persistence.PersistenceUnitRegistryEvent;
 import org.javaplus.netbeans.api.persistence.explorer.node.NodeProvider;
 import org.javaplus.netbeans.api.persistence.PersistenceUnit;
@@ -60,7 +61,7 @@ public class UnitNodeProvider extends NodeProviderBase {
         return instance;
     }
 
-    public Node[] getNodes() {
+    public List<Node> getNodes() {
         List<Node> nodes = new LinkedList<Node>();
         PersistenceUnit[] units =
                 PersistenceUnitManager.getDefault().getUnits();
@@ -71,6 +72,6 @@ public class UnitNodeProvider extends NodeProviderBase {
                     UnitNode.getInstance(new AbstractLookup(ic)));
         }
 
-        return nodes.toArray(new Node[nodes.size()]);
+        return Collections.unmodifiableList(nodes);
     }
 }
