@@ -1,5 +1,5 @@
 /*
- * @(#)PersistenceExplorerNode.java   10/04/28
+ * @(#)NodeBase.java   10/04/28
  * 
  * Copyright (c) 2010 Roger Suen(SUNRUJUN)
  * 
@@ -38,7 +38,7 @@ import javax.swing.event.ChangeListener;
  *
  * @author Roger Suen
  */
-public abstract class PersistenceExplorerNode extends AbstractNode {
+public abstract class NodeBase extends AbstractNode {
 
     public static final String LAYER_PATH_BASE = "Persistence/Explorer/Nodes/";
     public static final String FOLDER_CHILDREN = "/Children";
@@ -47,7 +47,7 @@ public abstract class PersistenceExplorerNode extends AbstractNode {
      * The singleton logger
      */
     private static final Logger logger =
-            Logger.getLogger(PersistenceExplorerNode.class.getName());
+            Logger.getLogger(NodeBase.class.getName());
     private final String childrenLayerFolder = LAYER_PATH_BASE + getLayerFolder()
             + FOLDER_CHILDREN;
     private final String actionsLayerFolder = LAYER_PATH_BASE
@@ -61,7 +61,7 @@ public abstract class PersistenceExplorerNode extends AbstractNode {
     /**
      * Sole constructor.
      */
-    protected PersistenceExplorerNode() {
+    protected NodeBase() {
         this(new NodeLookup());
     }
 
@@ -69,7 +69,7 @@ public abstract class PersistenceExplorerNode extends AbstractNode {
      * Uses protected/private pair of constructors so that we can initialize
      * lookup after construction.
      */
-    private PersistenceExplorerNode(NodeLookup nodeLookup) {
+    private NodeBase(NodeLookup nodeLookup) {
         super(Children.LEAF, nodeLookup);
 
         childRegistry = new ChildRegistry();
@@ -189,7 +189,7 @@ public abstract class PersistenceExplorerNode extends AbstractNode {
 
                     // reload the registry and then update this node
                     loadRegistry();
-                    update(); // PersistenceExplorerNode.update()
+                    update(); // NodeBase.update()
                 }
             });
 
@@ -220,7 +220,7 @@ public abstract class PersistenceExplorerNode extends AbstractNode {
                     np.addChangeListener(new ChangeListener() {
 
                         public void stateChanged(ChangeEvent e) {
-                            update(); // PersistenceExplorerNode.update()
+                            update(); // NodeBase.update()
                         }
                     });
                     children.add(np);
@@ -243,7 +243,7 @@ public abstract class PersistenceExplorerNode extends AbstractNode {
         }
 
         /**
-         * Called only by PersistenceExplorerNode.update().
+         * Called only by NodeBase.update().
          * Always asynchronized
          */
         private void refresh() {

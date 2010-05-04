@@ -12,14 +12,14 @@
  */
 package org.javaplus.netbeans.persistence.explorer.node;
 
-import org.javaplus.netbeans.api.persistence.explorer.node.PersistenceExplorerNode;
+import org.javaplus.netbeans.api.persistence.explorer.node.NodeBase;
 import org.openide.util.NbBundle;
 
 /**
  *
  * @author Roger Suen
  */
-public class UnitListNode extends PersistenceExplorerNode {
+public class UnitListNode extends NodeBase {
 
     public static final String LAYER_FOLDER = "UnitListNode";
     private static final String ICON_BASE =

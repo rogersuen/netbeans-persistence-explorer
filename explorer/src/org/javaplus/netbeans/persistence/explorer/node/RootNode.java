@@ -13,7 +13,7 @@
 
 package org.javaplus.netbeans.persistence.explorer.node;
 
-import org.javaplus.netbeans.api.persistence.explorer.node.PersistenceExplorerNode;
+import org.javaplus.netbeans.api.persistence.explorer.node.NodeBase;
 import org.openide.util.NbBundle;
 
 
@@ -21,7 +21,7 @@ import org.openide.util.NbBundle;
  *
  * @author Roger Suen
  */
-public class RootNode extends PersistenceExplorerNode {
+public class RootNode extends NodeBase {
     private static final String LAYER_FOLDER = "RootNode";
     private static final String ICON_BASE =
         "org/javaplus/netbeans/persistence/resources/persistence.gif";

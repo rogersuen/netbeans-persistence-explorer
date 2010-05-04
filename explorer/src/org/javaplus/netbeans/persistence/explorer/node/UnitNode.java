@@ -12,7 +12,7 @@
  */
 package org.javaplus.netbeans.persistence.explorer.node;
 
-import org.javaplus.netbeans.api.persistence.explorer.node.PersistenceExplorerNode;
+import org.javaplus.netbeans.api.persistence.explorer.node.NodeBase;
 import org.javaplus.netbeans.api.persistence.PersistenceUnit;
 
 
@@ -20,7 +20,7 @@ import org.javaplus.netbeans.api.persistence.PersistenceUnit;
  *
  * @author roger
  */
-public class UnitNode extends PersistenceExplorerNode {
+public class UnitNode extends NodeBase {
 
     public static final String LAYER_FOLDER = "UnitNode";
     private static final String ICON_BASE =

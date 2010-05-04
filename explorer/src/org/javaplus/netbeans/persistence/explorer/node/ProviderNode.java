@@ -12,7 +12,7 @@
  */
 package org.javaplus.netbeans.persistence.explorer.node;
 
-import org.javaplus.netbeans.api.persistence.explorer.node.PersistenceExplorerNode;
+import org.javaplus.netbeans.api.persistence.explorer.node.NodeBase;
 import org.javaplus.netbeans.api.persistence.PersistenceProvider;
 
 import org.openide.nodes.Node;
@@ -22,7 +22,7 @@ import org.openide.util.Lookup;
  *
  * @author roger
  */
-public class ProviderNode extends PersistenceExplorerNode {
+public class ProviderNode extends NodeBase {
 
     public static final String LAYER_FOLDER = "ProviderNode";
     private static final String ICON_BASE =
