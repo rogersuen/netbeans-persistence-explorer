@@ -10,42 +10,28 @@
  * http://www.apache.org/licenses/LICENSE-2.0
  *
  */
-
 package org.javaplus.netbeans.persistence.explorer.node;
 
 import org.javaplus.netbeans.api.persistence.explorer.node.PersistenceExplorerNode;
 import org.javaplus.netbeans.api.persistence.PersistenceUnit;
 
-import org.openide.nodes.Node;
-import org.openide.util.Lookup;
 
 /**
  *
  * @author roger
  */
 public class UnitNode extends PersistenceExplorerNode {
+
     public static final String LAYER_FOLDER = "UnitNode";
     private static final String ICON_BASE =
-        "org/javaplus/netbeans/persistence/resources/persistence.gif";
+            "org/javaplus/netbeans/persistence/resources/persistence.gif";
+    private final PersistenceUnit unit;
 
-    private UnitNode(Lookup lookup) {
+    UnitNode(PersistenceUnit unit) {
         super();
 
-        addLookup(lookup);
+        this.unit = unit;
         initProperties();
-    }
-
-    private void initProperties() {
-        PersistenceUnit unit = getLookup().lookup(PersistenceUnit.class);
-        // init our properties
-        setName(unit.getName());
-        setDisplayName(unit.getDisplayName());
-        setShortDescription(unit.getDescription());
-        setIconBaseWithExtension(ICON_BASE);
-    }
-
-    public static Node getInstance(Lookup lookup) {
-        return new UnitNode(lookup);
     }
 
     @Override
@@ -53,4 +39,14 @@ public class UnitNode extends PersistenceExplorerNode {
         return LAYER_FOLDER;
     }
 
+    public PersistenceUnit getUnit() {
+        return unit;
+    }
+
+    private void initProperties() {
+        setName(unit.getName());
+        setDisplayName(unit.getDisplayName());
+        setShortDescription(unit.getDescription());
+        setIconBaseWithExtension(ICON_BASE);
+    }
 }
