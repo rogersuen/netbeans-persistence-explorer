@@ -10,9 +10,9 @@
  * http://www.apache.org/licenses/LICENSE-2.0
  *
  */
-
 package org.javaplus.netbeans.api.persistence.explorer.node;
 
+import javax.swing.event.ChangeListener;
 import org.openide.nodes.Node;
 
 /**
@@ -20,5 +20,10 @@ import org.openide.nodes.Node;
  * @author Roger Suen
  */
 public interface NodeProvider {
+
     Node[] getNodes();
+
+    void addChangeListener(ChangeListener listener);
+
+    void removeChangeListener(ChangeListener listener);
 }

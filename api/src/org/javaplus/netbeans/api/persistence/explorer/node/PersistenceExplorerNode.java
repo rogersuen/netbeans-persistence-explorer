@@ -161,7 +161,7 @@ public abstract class PersistenceExplorerNode extends AbstractNode {
             loadKeys();
         }
 
-        private void loadKeys() {
+        private synchronized void loadKeys() {
             keys.clear();
 
             // load all instances of Node and NodeProvider
