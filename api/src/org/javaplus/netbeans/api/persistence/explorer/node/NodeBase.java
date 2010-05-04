@@ -33,6 +33,8 @@ import java.util.logging.Logger;
 
 import javax.swing.Action;
 import javax.swing.event.ChangeListener;
+import org.openide.util.lookup.AbstractLookup;
+import org.openide.util.lookup.InstanceContent;
 
 /**
  *
@@ -55,8 +57,11 @@ public abstract class NodeBase extends AbstractNode {
             + FOLDER_ACTIONS;
     private final ChildRegistry childRegistry;
     private final ActionRegistry actionRegistry;
-    // TODO: pending removal
-    private final NodeLookup lookup;
+
+    /**
+     * 
+     */
+    protected final NodeLookup lookup;
 
     /**
      * Sole constructor.
@@ -72,12 +77,10 @@ public abstract class NodeBase extends AbstractNode {
     private NodeBase(NodeLookup nodeLookup) {
         super(Children.LEAF, nodeLookup);
 
+        lookup = nodeLookup;
         childRegistry = new ChildRegistry();
         actionRegistry = new ActionRegistry();
         setChildren(Children.create(childRegistry, true));
-
-        // TODO: pending removal
-        lookup = nodeLookup;
     }
 
     /**
@@ -333,10 +336,19 @@ public abstract class NodeBase extends AbstractNode {
         }
     }
 
-    // TODO: pending removal
+    /**
+     * 
+     */
     public static final class NodeLookup extends ProxyLookup {
 
+        private final InstanceContent instanceContent = new InstanceContent();
+
         public NodeLookup() {
+            setLookups(new AbstractLookup(instanceContent));
+        }
+
+        public InstanceContent getInstanceContent() {
+            return instanceContent;
         }
 
         public void addLookup(Lookup... lookups) {
