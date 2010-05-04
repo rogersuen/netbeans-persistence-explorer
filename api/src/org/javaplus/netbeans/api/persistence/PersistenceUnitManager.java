@@ -181,7 +181,7 @@ public final class PersistenceUnitManager {
         if (logger.isLoggable(Level.FINER)) {
             logger.log(Level.FINER,
                     "The persistence unit registry changed, "
-                    + "{0} listeners were notified.",
+                    + "{0} listener(s) were notified.",
                     registryListeners.size());
         }
     }
