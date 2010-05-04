@@ -10,7 +10,6 @@
  * http://www.apache.org/licenses/LICENSE-2.0
  *
  */
-
 package org.javaplus.netbeans.persistence.explorer.node;
 
 import org.javaplus.netbeans.api.persistence.explorer.node.NodeProvider;
@@ -23,15 +22,30 @@ import org.openide.util.lookup.InstanceContent;
 
 import java.util.LinkedList;
 import java.util.List;
+import org.javaplus.netbeans.api.persistence.explorer.node.NodeProviderBase;
 
 /**
  *
  * @author Roger Suen
  */
-public class ProviderNodeProvider implements NodeProvider {
-    private static final NodeProvider instance =
-        new ProviderNodeProvider();
+public class ProviderNodeProvider extends NodeProviderBase {
 
+    /**
+     * The singleton instance
+     */
+    private static final NodeProvider instance =
+            new ProviderNodeProvider();
+
+    /**
+     * Constructor.
+     */
+    private ProviderNodeProvider() {
+    }
+
+    /**
+     * Returns an instance of <tt>NodeProvider</tt>.
+     * @return an instance of <tt>NodeProvider</tt>
+     */
     public static NodeProvider getInstance() {
         return instance;
     }
@@ -39,12 +53,12 @@ public class ProviderNodeProvider implements NodeProvider {
     public Node[] getNodes() {
         List<Node> nodes = new LinkedList<Node>();
         PersistenceProvider[] providers =
-            PersistenceProviderManager.getDefault().getProviders();
+                PersistenceProviderManager.getDefault().getProviders();
         for (PersistenceProvider provider : providers) {
             InstanceContent ic = new InstanceContent();
             ic.add(provider);    // PeristenceProvider
             nodes.add(
-                ProviderNode.getInstance(new AbstractLookup(ic)));
+                    ProviderNode.getInstance(new AbstractLookup(ic)));
         }
 
         return nodes.toArray(new Node[nodes.size()]);
