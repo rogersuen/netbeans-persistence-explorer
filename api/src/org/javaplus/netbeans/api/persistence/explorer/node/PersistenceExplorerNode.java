@@ -12,6 +12,7 @@
  */
 package org.javaplus.netbeans.api.persistence.explorer.node;
 
+import javax.swing.event.ChangeEvent;
 import org.openide.nodes.AbstractNode;
 import org.openide.nodes.ChildFactory;
 import org.openide.nodes.Children;
@@ -31,6 +32,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.Action;
+import javax.swing.event.ChangeListener;
 
 /**
  *
@@ -51,11 +53,8 @@ public abstract class PersistenceExplorerNode extends AbstractNode {
     private final String actionsLayerFolder = LAYER_PATH_BASE
             + getLayerFolder()
             + FOLDER_ACTIONS;
-    
     private final ChildRegistry childRegistry;
     private final ActionRegistry actionRegistry;
-
-
     // TODO: pending removal
     private final NodeLookup lookup;
 
@@ -77,16 +76,23 @@ public abstract class PersistenceExplorerNode extends AbstractNode {
         actionRegistry = new ActionRegistry();
         setChildren(Children.create(childRegistry, true));
 
-    // TODO: pending removal
+        // TODO: pending removal
         lookup = nodeLookup;
     }
-
 
     /**
      * 
      * @return
      */
     protected abstract String getLayerFolder();
+
+    public void update() {
+        childRegistry.refresh();
+        updateProperties();
+    }
+
+    protected void updateProperties() {
+    }
 
     /**
      * 
@@ -142,36 +148,85 @@ public abstract class PersistenceExplorerNode extends AbstractNode {
     }
 
     /**
+     * <p>
+     * Factory used to create child nodes. This class manages a list of
+     * instance of child nodes and child nodes providers registered
+     * in the corresponding filesystem folder. The keys used to create
+     * child nodes are nodes (registered directly or returned from registered
+     * node providers) themselves.</p>
+     * <p>
+     * The following two sources of changes cause the node update itself:</p>
+     * <ul>
+     *  <li>Node/NodeProvider registry changes</li>
+     *  <li>Any NodeProvider changes</li>
+     * </ul>
      * 
+     * 
+     * @see #getLayerFolder()
+     * @see #update() 
      */
     private final class ChildRegistry extends ChildFactory<Object> {
 
         private final Lookup.Result<Object> childrenLookupResult;
-        private final List<Object> keys = new CopyOnWriteArrayList<Object>();
+        /**
+         * List of Node/NodeProvider instances registered in the XML
+         * layer folder
+         */
+        private final List<Object> children = new CopyOnWriteArrayList<Object>();
 
         public ChildRegistry() {
-            childrenLookupResult = Lookups.forPath(childrenLayerFolder).lookupResult(Object.class);
+            childrenLookupResult = Lookups.forPath(childrenLayerFolder).
+                    lookupResult(Object.class);
             childrenLookupResult.addLookupListener(new LookupListener() {
 
                 public void resultChanged(LookupEvent ev) {
-                    loadKeys();
+                    if (logger.isLoggable(Level.FINE)) {
+                        logger.log(Level.FINE,
+                                "Lookup.Result(Object.class) change detected "
+                                + "in the folder: {0}",
+                                childrenLayerFolder);
+                    }
+
+                    // reload the registry and then update this node
+                    loadRegistry();
+                    update(); // PersistenceExplorerNode.update()
                 }
             });
 
-            loadKeys();
+            loadRegistry();
         }
 
-        private synchronized void loadKeys() {
-            keys.clear();
+        private synchronized void loadRegistry() {
+            if (logger.isLoggable(Level.FINE)) {
+                logger.log(Level.FINE,
+                        "Loading instances of Node/NodeProvider from "
+                        + "the folder {0}",
+                        childrenLayerFolder);
+            }
+
+            // clear, and then iterate to add, so synchronized
+            children.clear();
 
             // load all instances of Node and NodeProvider
-            Collection<? extends Object> objects = childrenLookupResult.allInstances();
+            Collection<? extends Object> objects =
+                    childrenLookupResult.allInstances();
             for (Object object : objects) {
-                if (object instanceof Node || object instanceof NodeProvider) {
-                    keys.add(object);
+                if (object instanceof Node) {
+                    children.add(object);
+                } else if (object instanceof NodeProvider) {
+                    // listens to the provider for the change event
+                    // update the node on changes
+                    NodeProvider np = (NodeProvider) object;
+                    np.addChangeListener(new ChangeListener() {
+
+                        public void stateChanged(ChangeEvent e) {
+                            update(); // PersistenceExplorerNode.update()
+                        }
+                    });
+                    children.add(np);
                 } else if (logger.isLoggable(Level.WARNING)) {
                     logger.log(Level.WARNING,
-                            "Node/NodeProvider instance expected in the layer "
+                            "Node/NodeProvider instance expected in the "
                             + "folder {0}, but {1} found there", new Object[]{
                                 childrenLayerFolder,
                                 object});
@@ -181,15 +236,29 @@ public abstract class PersistenceExplorerNode extends AbstractNode {
             if (logger.isLoggable(Level.FINE)) {
                 logger.log(Level.FINE,
                         "{0} instance(s) of Node/NodeProvider loaded "
-                        + "from the layer folder {1}", new Object[]{
-                            keys.size(),
+                        + "from the folder {1}", new Object[]{
+                            children.size(),
                             childrenLayerFolder});
             }
         }
 
+        /**
+         * Called only by PersistenceExplorerNode.update().
+         * Always asynchronized
+         */
+        private void refresh() {
+            refresh(false);
+        }
+
         @Override
         protected boolean createKeys(List<Object> toPopulate) {
-            toPopulate.addAll(keys);
+            for (Object object : children) {
+                if (object instanceof Node) {
+                    toPopulate.add(object);
+                } else if (object instanceof NodeProvider) {
+                    toPopulate.addAll(((NodeProvider) object).getNodes());
+                }
+            }
             return true;
         }
 
@@ -197,10 +266,8 @@ public abstract class PersistenceExplorerNode extends AbstractNode {
         protected Node[] createNodesForKey(Object key) {
             if (key instanceof Node) {
                 return new Node[]{(Node) key};
-            } else if (key instanceof NodeProvider) {
-                return ((NodeProvider) key).getNodes();
             } else {
-                return null;
+                return null; // should never happen
             }
         }
     }
@@ -265,7 +332,6 @@ public abstract class PersistenceExplorerNode extends AbstractNode {
             }
         }
     }
-
 
     // TODO: pending removal
     public static final class NodeLookup extends ProxyLookup {

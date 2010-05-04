@@ -12,6 +12,7 @@
  */
 package org.javaplus.netbeans.api.persistence.explorer.node;
 
+import java.util.List;
 import javax.swing.event.ChangeListener;
 import org.openide.nodes.Node;
 
@@ -21,7 +22,7 @@ import org.openide.nodes.Node;
  */
 public interface NodeProvider {
 
-    Node[] getNodes();
+    List<Node> getNodes();
 
     void addChangeListener(ChangeListener listener);
 

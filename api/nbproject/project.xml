@@ -53,5 +53,8 @@
                 <package>org.javaplus.netbeans.api.persistence.explorer.node</package>
             </public-packages>
         </data>
+        <spellchecker-wordlist xmlns="http://www.netbeans.org/ns/spellchecker-wordlist/1">
+            <word>filesystem</word>
+        </spellchecker-wordlist>
     </configuration>
 </project>
