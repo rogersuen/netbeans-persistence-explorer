@@ -1,5 +1,5 @@
 /*
- * @(#)NewPersistenceUnitAction.java   10/04/20
+ * @(#)NewUnitAction.java   10/04/20
  *
  * Copyright (c) 2010 Roger Suen(SUNRUJUN)
  *
@@ -10,7 +10,6 @@
  * http://www.apache.org/licenses/LICENSE-2.0
  *
  */
-
 package org.javaplus.netbeans.persistence.explorer.action;
 
 import org.openide.util.NbBundle;
@@ -18,12 +17,12 @@ import org.openide.util.NbBundle;
 import java.awt.event.ActionEvent;
 import org.javaplus.netbeans.persistence.explorer.dialog.PersistenceUnitDialog;
 
-public final class NewPersistenceUnitAction extends BaseAction {
-    private static final String KEY_NAME = "NewPersistenceUnitAction.NAME";
+public final class NewUnitAction extends BaseAction {
 
-    public NewPersistenceUnitAction() {
-        putValue(NAME,
-                 NbBundle.getMessage(NewPersistenceUnitAction.class, KEY_NAME));
+    private static final String KEY_NAME = "NewUnitAction.NAME";
+
+    public NewUnitAction() {
+        putValue(NAME, NbBundle.getMessage(NewUnitAction.class, KEY_NAME));
     }
 
     public void actionPerformed(ActionEvent e) {

@@ -37,7 +37,7 @@
                 </folder>
                 <folder name="UnitListNode">
                     <folder name="Actions">
-                        <file name="org-javaplus-netbeans-persistence-explorer-action-NewPersistenceUnitAction.instance">
+                        <file name="org-javaplus-netbeans-persistence-explorer-action-NewUnitAction.instance">
                             <attr name="position" intvalue="100"/>
                         </file>
                     </folder>
