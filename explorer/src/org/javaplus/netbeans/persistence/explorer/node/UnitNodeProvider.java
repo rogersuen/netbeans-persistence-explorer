@@ -28,18 +28,41 @@ import java.util.Map;
 import java.util.WeakHashMap;
 import org.javaplus.netbeans.api.persistence.PersistenceUnitRegistryListener;
 import org.javaplus.netbeans.api.persistence.explorer.node.NodeProviderBase;
+import org.javaplus.netbeans.api.persistence.explorer.node.NodeProviderFactory;
+import org.openide.util.Lookup;
 
 /**
- *
+ * TODO: javadoc
  * @author Roger Suen
  */
 public class UnitNodeProvider extends NodeProviderBase {
 
     /**
-     * The singleton instance.
+     * <tt>NodeProviderFactory</tt> implementation.
      */
-    private static final NodeProvider instance =
-            new UnitNodeProvider();
+    public static final class Factory implements NodeProviderFactory {
+
+        private static final Factory DEFAULT = new Factory();
+
+        /**
+         * Returns the singleton instance of the node provider factory.
+         * @return an instance of <tt>Factory</tt>.
+         */
+        public static NodeProviderFactory getInstance() {
+            return DEFAULT;
+        }
+
+        /**
+         * {@inheritDoc }
+         * <p>
+         * This method returns a new instance on each call.<p>
+         * @param lookup {@inheritDoc }
+         * @return a new instance of <tt>UnitNodeProvider</tt>.
+         */
+        public NodeProvider createNodeProvider(Lookup lookup) {
+            return new UnitNodeProvider(lookup);
+        }
+    }
     /**
      * A map helps to ensure returning the same unit node for the same
      * unit. Both keys and values are weak references
@@ -50,28 +73,22 @@ public class UnitNodeProvider extends NodeProviderBase {
     /**
      * Constructor.
      */
-    private UnitNodeProvider() {
+    private UnitNodeProvider(Lookup lookup) {
+        super(lookup);
+
         PersistenceUnitManager puManager = PersistenceUnitManager.getDefault();
         puManager.addRegistryListener(new PersistenceUnitRegistryListener() {
 
             public void registryChanged(PersistenceUnitRegistryEvent event) {
-                fireChange();
+                fireChangeEvent();
             }
         });
 
     }
 
     /**
-     * Returns an instance of <tt>NodeProvider</tt>.
-     * @return an instance of <tt>NodeProvider</tt>
-     */
-    public static NodeProvider getInstance() {
-        return instance;
-    }
-
-    /**
      * {@inheritDoc }
-     * @return an immutable list of <tt>UnitNode</tt>
+     * @return an immutable list of <tt>UnitNode</tt>.
      */
     public List<Node> getNodes() {
         PersistenceUnit[] units =

@@ -1,5 +1,5 @@
 /*
- * @(#)ProviderNodeProvider.java   10/04/20
+ * @(#)UnitNodeProvider.java   10/04/20
  *
  * Copyright (c) 2010 Roger Suen(SUNRUJUN)
  *
@@ -12,16 +12,15 @@
  */
 package org.javaplus.netbeans.persistence.explorer.node;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Set;
+import javax.persistence.metamodel.EntityType;
+import javax.persistence.metamodel.Metamodel;
 import org.javaplus.netbeans.api.persistence.explorer.node.NodeProvider;
-import org.javaplus.netbeans.api.persistence.PersistenceProvider;
-import org.javaplus.netbeans.api.persistence.PersistenceProviderManager;
 
 import org.openide.nodes.Node;
-import org.openide.util.lookup.AbstractLookup;
-import org.openide.util.lookup.InstanceContent;
 
-import java.util.LinkedList;
 import java.util.List;
 import org.javaplus.netbeans.api.persistence.explorer.node.NodeProviderBase;
 import org.javaplus.netbeans.api.persistence.explorer.node.NodeProviderFactory;
@@ -31,7 +30,8 @@ import org.openide.util.Lookup;
  * TODO: javadoc
  * @author Roger Suen
  */
-public class ProviderNodeProvider extends NodeProviderBase {
+public class EntityTypeNodeProvider extends NodeProviderBase {
+
     /**
      * <tt>NodeProviderFactory</tt> implementation.
      */
@@ -40,8 +40,8 @@ public class ProviderNodeProvider extends NodeProviderBase {
         private static final Factory DEFAULT = new Factory();
 
         /**
-         * Returns the singleton instance of the node provider factory.
-         * @return an instance of <tt>Factory</tt>.
+         * Returns the singleton provider of the node provider factory.
+         * @return an provider of <tt>Factory</tt>.
          */
         public static NodeProviderFactory getInstance() {
             return DEFAULT;
@@ -50,40 +50,44 @@ public class ProviderNodeProvider extends NodeProviderBase {
         /**
          * {@inheritDoc }
          * <p>
-         * This method returns a new instance on each call.<p>
+         * This method returns a newly created instance on each call.<p>
          * @param lookup {@inheritDoc }
-         * @return a new instance of <tt>UnitNodeProvider</tt>.
+         * @return a new instance of <tt>MetamodelNodeProvider</tt>.
          */
         public NodeProvider createNodeProvider(Lookup lookup) {
-            return new ProviderNodeProvider(lookup);
+            return new EntityTypeNodeProvider(lookup);
         }
     }
 
     /**
      * Constructor.
      */
-    private ProviderNodeProvider(Lookup lookup) {
+    private EntityTypeNodeProvider(Lookup lookup) {
         super(lookup);
     }
 
     /**
      * {@inheritDoc }
-     * @return an immutable list of <tt>ProviderNode</tt>.
+     * @return an immutable list of <tt>UnitNode</tt>
      */
     public List<Node> getNodes() {
-
-        // TODO: fixed this according to UnitNodeProvider.
-        
-        List<Node> nodes = new LinkedList<Node>();
-        PersistenceProvider[] providers =
-                PersistenceProviderManager.getDefault().getProviders();
-        for (PersistenceProvider provider : providers) {
-            InstanceContent ic = new InstanceContent();
-            ic.add(provider);    // PeristenceProvider
-            nodes.add(
-                    ProviderNode.getInstance(new AbstractLookup(ic)));
+        Metamodel metamodel = lookup.lookup(Metamodel.class);
+        if (metamodel == null) { 
+            assert metamodel != null; // should never happen
+            return Collections.EMPTY_LIST;
         }
 
-        return Collections.unmodifiableList(nodes);
+        // create one EntityTypeNode for each EntityType
+        Set<EntityType<?>> entityTypes = metamodel.getEntities();
+        int size = entityTypes.size();
+        if (size == 0) {
+            return Collections.EMPTY_LIST;
+        } else {
+            ArrayList<Node> result = new ArrayList<Node>(size);
+            for (EntityType entityType : entityTypes) {
+                result.add(new EntityTypeNode(entityType));
+            }
+            return Collections.unmodifiableList(result);
+        }
     }
 }

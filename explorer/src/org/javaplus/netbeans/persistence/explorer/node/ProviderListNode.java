@@ -23,8 +23,6 @@ import org.openide.util.NbBundle;
  */
 public class ProviderListNode extends NodeBase {
     public static final String LAYER_FOLDER = "ProviderListNode";
-    private static final String ICON_BASE =
-        "org/javaplus/netbeans/persistence/resources/persistence.gif";
     private static ProviderListNode instance;
 
     private ProviderListNode() {
@@ -48,7 +46,7 @@ public class ProviderListNode extends NodeBase {
                 "ProviderListNode.DISPLAY_NAME"));
         setShortDescription(NbBundle.getMessage(ProviderListNode.class,
                 "ProviderListNode.SHORT_DESCRIPTION"));
-        setIconBaseWithExtension(ICON_BASE);
+        setIconBaseWithExtension(FOLDER_ICON_BASE);
     }
 
     @Override

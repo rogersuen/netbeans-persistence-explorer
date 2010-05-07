@@ -29,8 +29,8 @@
                     <folder name="Actions">
                     </folder>
                     <folder name="Children">
-                        <file name="ProviderNodeProvider.instance">
-                            <attr name="instanceCreate" methodvalue="org.javaplus.netbeans.persistence.explorer.node.ProviderNodeProvider.getInstance"/>
+                        <file name="ProviderNodeProviderFactory.instance">
+                            <attr name="instanceCreate" methodvalue="org.javaplus.netbeans.persistence.explorer.node.ProviderNodeProvider$Factory.getInstance"/>
                             <attr name="position" intvalue="100"/>
                         </file>
                     </folder>
@@ -42,8 +42,8 @@
                         </file>
                     </folder>
                     <folder name="Children">
-                        <file name="UnitNodeProvider.instance">
-                            <attr name="instanceCreate" methodvalue="org.javaplus.netbeans.persistence.explorer.node.UnitNodeProvider.getInstance"/>
+                        <file name="UnitNodeProviderFactory.instance">
+                            <attr name="instanceCreate" methodvalue="org.javaplus.netbeans.persistence.explorer.node.UnitNodeProvider$Factory.getInstance"/>
                             <attr name="position" intvalue="100"/>
                         </file>
                     </folder>
@@ -64,22 +64,24 @@
                         </file>
                     </folder>
                     <folder name="Children">
-                    </folder>
-                </folder>
-                <folder name="ManagedTypesNode">
-                    <folder name="Actions">
-                    </folder>
-                    <folder name="Children">
-                        <file name="ManagedTypeNodeFactory.instance">
-                            <attr intvalue="100" name="position"/>
+                        <file name="MetamodelNodeProviderFactory.instance">
+                            <attr name="instanceCreate" methodvalue="org.javaplus.netbeans.persistence.explorer.node.MetamodelNodeProvider$Factory.getInstance"/>
+                            <attr name="position" intvalue="100"/>
                         </file>
                     </folder>
                 </folder>
-                <folder name="EntityTypesNode">
+                <folder name="ManagedTypeListNode">
                     <folder name="Actions">
                     </folder>
                     <folder name="Children">
-                        <file name="EntityTypeNodeFactory.instance">
+                    </folder>
+                </folder>
+                <folder name="EntityTypeListNode">
+                    <folder name="Actions">
+                    </folder>
+                    <folder name="Children">
+                        <file name="EntityTypeNodeProviderFactory.instance">
+                            <attr name="instanceCreate" methodvalue="org.javaplus.netbeans.persistence.explorer.node.EntityTypeNodeProvider$Factory.getInstance"/>
                             <attr intvalue="100" name="position"/>
                         </file>
                     </folder>
