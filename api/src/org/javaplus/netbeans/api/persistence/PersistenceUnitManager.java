@@ -84,7 +84,7 @@ public final class PersistenceUnitManager {
 
     /**
      * Returns all registered persistence unit as an array.
-     * @return an array of <tt>PersistenceUnit</tt>
+     * @return a non-null array of <tt>PersistenceUnit</tt> instances.
      */
     public PersistenceUnit[] getUnits() {
         Collection<? extends PersistenceUnit> units = lookupResult.allInstances();
