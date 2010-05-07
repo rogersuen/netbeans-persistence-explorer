@@ -6,9 +6,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import org.openide.util.Lookup;
 
 /**
- *
+ * TODO: javadoc
  * @author Roger Suen
  */
 public abstract class NodeProviderBase implements NodeProvider {
@@ -28,28 +29,42 @@ public abstract class NodeProviderBase implements NodeProvider {
             new CopyOnWriteArraySet<ChangeListener>();
     /**
      * Singleton <tt>ChangeEvent</tt> instance for simple use cases.
-     * @see #fireChange() 
+     * @see #fireChangeEvent()
      */
     private final ChangeEvent changeEvent = new ChangeEvent(this);
+    /**
+     * The lookup object passed from the node as the parent of this
+     * node provider.
+     */
+    protected final Lookup lookup;
 
     /**
-     * Sole constructor.
+     * Constructs a new instance of <tt>NodeProviderBase</tt> with
+     * the specified lookup passed from the parent node.
+     * 
+     * @param lookup the lookup object passed from the parent node. cannot be
+     *               <tt>null</tt>.
+     * @throws NullPointerException if <tt>lookup</tt> is <tt>null</tt>.
      */
-    protected NodeProviderBase() {
+    protected NodeProviderBase(Lookup lookup) {
+        if (lookup == null) {
+            throw new NullPointerException("null lookup");
+        }
+        this.lookup = lookup;
     }
 
     /**
-     * 
+     * TODO: javadoc
      */
-    protected final void fireChange() {
-        fireChange(changeEvent);
+    protected final void fireChangeEvent() {
+        fireChangeEvent(changeEvent);
     }
 
     /**
-     * 
+     * TODO: javadoc
      * @param event
      */
-    protected final void fireChange(ChangeEvent event) {
+    protected final void fireChangeEvent(ChangeEvent event) {
         if (logger.isLoggable(Level.FINER)) {
             logger.log(Level.FINER,
                     "NodeProvider {0} is notifying change event to listeners",

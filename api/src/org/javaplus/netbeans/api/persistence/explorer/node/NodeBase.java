@@ -37,7 +37,7 @@ import org.openide.util.lookup.AbstractLookup;
 import org.openide.util.lookup.InstanceContent;
 
 /**
- *
+ * TODO: javadoc
  * @author Roger Suen
  */
 public abstract class NodeBase extends AbstractNode {
@@ -45,6 +45,9 @@ public abstract class NodeBase extends AbstractNode {
     public static final String LAYER_PATH_BASE = "Persistence/Explorer/Nodes/";
     public static final String FOLDER_CHILDREN = "/Children";
     public static final String FOLDER_ACTIONS = "/Actions";
+
+    protected static final String FOLDER_ICON_BASE =
+            "org/javaplus/netbeans/persistence/resources/folder.gif";
     /**
      * The singleton logger
      */
@@ -57,7 +60,6 @@ public abstract class NodeBase extends AbstractNode {
             + FOLDER_ACTIONS;
     private final ChildRegistry childRegistry;
     private final ActionRegistry actionRegistry;
-
     /**
      * 
      */
@@ -216,17 +218,19 @@ public abstract class NodeBase extends AbstractNode {
             for (Object object : objects) {
                 if (object instanceof Node) {
                     children.add(object);
-                } else if (object instanceof NodeProvider) {
+                } else if (object instanceof NodeProviderFactory) {
+                    NodeProviderFactory factory = (NodeProviderFactory) object;
+                    NodeProvider provider = factory.createNodeProvider(lookup);
+
                     // listens to the provider for the change event
                     // update the node on changes
-                    NodeProvider np = (NodeProvider) object;
-                    np.addChangeListener(new ChangeListener() {
+                    provider.addChangeListener(new ChangeListener() {
 
                         public void stateChanged(ChangeEvent e) {
                             update(); // NodeBase.update()
                         }
                     });
-                    children.add(np);
+                    children.add(provider);
                 } else if (logger.isLoggable(Level.WARNING)) {
                     logger.log(Level.WARNING,
                             "Node/NodeProvider instance expected in the "

@@ -17,7 +17,7 @@ import javax.swing.event.ChangeListener;
 import org.openide.nodes.Node;
 
 /**
- *
+ * TODO: javadoc
  * @author Roger Suen
  */
 public interface NodeProvider {
