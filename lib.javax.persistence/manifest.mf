@@ -1,0 +1,5 @@
+Manifest-Version: 1.0
+OpenIDE-Module: org.javaplus.netbeans.libs.jpa20/1
+OpenIDE-Module-Localizing-Bundle: org/javaplus/netbeans/libs/jpa20/Bundle.properties
+OpenIDE-Module-Specification-Version: 1.0
+
