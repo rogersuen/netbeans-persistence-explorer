@@ -6,6 +6,6 @@ import javax.swing.AbstractAction;
  *
  * @author Roger Suen
  */
-public abstract class BaseAction extends AbstractAction {
+public abstract class ActionBase extends AbstractAction {
 
 }

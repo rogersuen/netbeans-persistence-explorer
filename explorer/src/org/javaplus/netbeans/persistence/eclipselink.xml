@@ -5,7 +5,7 @@
     <display-name value='EclipseLink(JPA2.0)'/>
     <description value='EclipseLink, JPA 2.0 implementation provided by Oracle'/>
     <urls>
-        <url value="nbinst:///modules/ext/eclipselink/eclipselink-2.0.0.jar"/>
-        <url value="nbinst:///modules/ext/eclipselink/eclipselink-javax.persistence-2.0.jar"/>
+        <url value="file:/D:/Java/NetBeans 6.8/java3/modules/ext/eclipselink/eclipselink-2.0.0.jar"/>
+        <url value="file:/D:/Java/NetBeans 6.8/java3/modules/ext/eclipselink/eclipselink-javax.persistence-2.0.jar"/>
     </urls>
 </provider>

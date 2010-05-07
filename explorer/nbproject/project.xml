@@ -16,6 +16,15 @@
                     </run-dependency>
                 </dependency>
                 <dependency>
+                    <code-name-base>org.javaplus.netbeans.libs.jpa20</code-name-base>
+                    <build-prerequisite/>
+                    <compile-dependency/>
+                    <run-dependency>
+                        <release-version>1</release-version>
+                        <specification-version>1.0</specification-version>
+                    </run-dependency>
+                </dependency>
+                <dependency>
                     <code-name-base>org.netbeans.core.ide</code-name-base>
                     <build-prerequisite/>
                     <compile-dependency/>
@@ -83,7 +92,12 @@
                     </test-dependency>
                 </test-type>
             </test-dependencies>
-            <public-packages/>
+            <public-packages>
+                <package>org.javaplus.netbeans.persistence.connection</package>
+                <package>org.javaplus.netbeans.persistence.explorer.action</package>
+                <package>org.javaplus.netbeans.persistence.explorer.dialog</package>
+                <package>org.javaplus.netbeans.persistence.explorer.node</package>
+            </public-packages>
         </data>
     </configuration>
 </project>

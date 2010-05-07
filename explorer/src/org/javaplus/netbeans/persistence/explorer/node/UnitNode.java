@@ -28,9 +28,12 @@ public class UnitNode extends NodeBase {
     private final PersistenceUnit unit;
 
     UnitNode(PersistenceUnit unit) {
-        super();
+        if (unit == null) {
+            throw new NullPointerException("null unit");
+        }
 
         this.unit = unit;
+        lookup.getInstanceContent().add(unit);
         initProperties();
     }
 

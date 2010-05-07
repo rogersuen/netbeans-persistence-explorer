@@ -17,7 +17,7 @@ import org.openide.util.NbBundle;
 import java.awt.event.ActionEvent;
 import org.javaplus.netbeans.persistence.explorer.dialog.PersistenceUnitDialog;
 
-public final class NewUnitAction extends BaseAction {
+public final class NewUnitAction extends ActionBase {
 
     private static final String KEY_NAME = "NewUnitAction.NAME";
 
