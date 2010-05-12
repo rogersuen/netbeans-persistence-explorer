@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
-OpenIDE-Module: org.javaplus.netbeans.api.persistence/1
+OpenIDE-Module: org.javaplus.netbeans.api.persistence
+OpenIDE-Module-Implementation-Version: 0
 OpenIDE-Module-Layer: org/javaplus/netbeans/api/persistence/resources/layer.xml
 OpenIDE-Module-Localizing-Bundle: org/javaplus/netbeans/api/persistence/resources/Bundle.properties
-OpenIDE-Module-Specification-Version: 1.0
 
