@@ -12,7 +12,7 @@
  */
 package org.javaplus.netbeans.persistence.explorer.node;
 
-import javax.persistence.metamodel.EntityType;
+import javax.persistence.metamodel.ManagedType;
 import org.javaplus.netbeans.api.persistence.explorer.node.NodeBase;
 
 
@@ -20,20 +20,20 @@ import org.javaplus.netbeans.api.persistence.explorer.node.NodeBase;
  *
  * @author roger
  */
-public class EntityTypeNode extends NodeBase {
+public class ManagedTypeNode extends NodeBase {
 
-    public static final String LAYER_FOLDER = "EntityTypeNode";
+    public static final String LAYER_FOLDER = "ManagedTypeNode";
     private static final String ICON_BASE =
             "org/javaplus/netbeans/persistence/resources/entity.gif";
-    private final EntityType entityType;
+    private final ManagedType managedType;
 
-    EntityTypeNode(EntityType entityType) {
-        if (entityType == null) {
+    ManagedTypeNode(ManagedType managedType) {
+        if (managedType == null) {
             throw new NullPointerException("null entityType");
         }
 
-        this.entityType = entityType;
-        lookup.getInstanceContent().add(entityType);
+        this.managedType = managedType;
+        lookup.getInstanceContent().add(managedType);
         initProperties();
     }
 
@@ -42,14 +42,10 @@ public class EntityTypeNode extends NodeBase {
         return LAYER_FOLDER;
     }
 
-    public EntityType getUnit() {
-        return entityType;
-    }
-
     private void initProperties() {
-        Class javaType = entityType.getJavaType();
-        setName(entityType.getName());
-        setDisplayName(entityType.getName());
+        Class javaType = managedType.getJavaType();
+        setName(javaType.getName());
+        setDisplayName(javaType.getSimpleName());
         setShortDescription(javaType.getName());
         setIconBaseWithExtension(ICON_BASE);
     }

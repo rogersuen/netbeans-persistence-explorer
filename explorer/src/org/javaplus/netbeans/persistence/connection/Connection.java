@@ -32,6 +32,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.Callable;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -87,6 +89,13 @@ public class Connection extends ConnectionEventSupport {
      */
     private Metamodel metamodel;
 
+    //
+    // Session management
+    //
+    private final List<Session> sessions = new CopyOnWriteArrayList<Session>();
+    private int nextSessionId = 1;
+
+
     /**
      * Constructs a new instance of <tt>Connection</tt> with the specified
      * connection manager and the persistence unit.
@@ -138,7 +147,7 @@ public class Connection extends ConnectionEventSupport {
     }
 
     /**
-     * Indicates whether this connection is doOpen. Returns <tt>true</tt> until
+     * Indicates whether this connection is open. Returns <tt>true</tt> until
      * the connection has been closed.
      * @return <tt>true</tt> if this connection is doOpen; <tt>false</tt>
      *         otherwise.
@@ -171,11 +180,51 @@ public class Connection extends ConnectionEventSupport {
         fireConnectionClosedEvent(this);
     }
 
+    /**
+     * 
+     * @return
+     * @throws ConnectionException
+     */
+    public Session openSession() throws ConnectionException {
+        verifyOpen();
+        Session session = new Session(this, nextSessionId++);
+        sessions.add(session);
+        return session;
+    }
+
+    /**
+     * Used only by {@link Session#close() } to remove the closed session
+     * from our internal sessions list.
+     * @param session the session to remove
+     */
+    void removeSession(Session session) {
+        sessions.remove(session);
+    }
+
+    EntityManagerFactory getEntityManagerFactory() {
+        return entityManagerFactory;
+    }
+
     private void verifyOpen() {
         if (!isOpen) {
             throw new IllegalStateException(
                 "Attempting to execute an operation on a closed "
                 + "Connection instance.");
+        }
+    }
+
+    private void closeAllSessions() {
+        for (Session session: sessions) {
+            try {
+                // NOTE:
+                // Although the Session.close() method will call
+                // Connection.removeSession() method to remove it from
+                // our sessions list, since we use CopyOnWriteArrayList,
+                // so it's still safe to iterate on the list here
+                session.close();
+            } catch (ConnectionException ex) {
+                Exceptions.printStackTrace(ex);
+            }
         }
     }
 

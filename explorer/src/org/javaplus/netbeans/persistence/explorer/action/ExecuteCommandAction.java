@@ -1,5 +1,5 @@
 /*
- * @(#)CloseUnitAction.java   10/05/13
+ * @(#)ExecuteCommandAction.java   10/05/13
  *
  * Copyright (c) 2010 Roger Suen(SUNRUJUN)
  *
@@ -17,8 +17,8 @@ import org.javaplus.netbeans.api.persistence.PersistenceUnit;
 import org.javaplus.netbeans.persistence.connection.Connection;
 import org.javaplus.netbeans.persistence.connection.ConnectionException;
 import org.javaplus.netbeans.persistence.connection.ConnectionManager;
-
 import org.openide.util.Exceptions;
+
 import org.openide.util.Lookup;
 import org.openide.util.NbBundle;
 
@@ -29,22 +29,19 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.Action;
+import org.javaplus.netbeans.persistence.ql.editor.QLEditorSupport;
 
-/**
- *
- * @author Roger Suen
- */
-public class CloseUnitAction extends UnitActionBase {
-    private static final String KEY_NAME = "CloseUnitAction.NAME";
+public class ExecuteCommandAction extends UnitActionBase {
+    private static final String KEY_NAME = "ExecuteCommandAction.NAME";
     private static final Logger logger =
-        Logger.getLogger(CloseUnitAction.class.getName());
+        Logger.getLogger(ExecuteCommandAction.class.getName());
 
-    public CloseUnitAction() {
+    public ExecuteCommandAction() {
         super();
         init();
     }
 
-    private CloseUnitAction(Lookup context) {
+    private ExecuteCommandAction(Lookup context) {
         super(context);
         init();
     }
@@ -55,21 +52,17 @@ public class CloseUnitAction extends UnitActionBase {
 
     public void actionPerformed(ActionEvent e) {
         Collection<PersistenceUnit> units = getSelection();
-        if (units.size() != 1) {
-            throw new IllegalStateException(
-                "One and only one unit node must be selected "
-                + "to perform close action.");
-        }
-
-        PersistenceUnit unit = units.iterator().next();
-        try {
+        if (units.size() == 1) {
+            PersistenceUnit unit = units.iterator().next();
             Connection conn =
                 ConnectionManager.getDefault().getConnection(unit);
-            conn.close();
-        } catch (ConnectionException ex) {
-
-            // TODO: handle exception
-            Exceptions.printStackTrace(ex);
+            if ((conn != null) && conn.isOpen()) {
+                try {
+                    conn.openSession();
+                } catch (ConnectionException ex) {
+                    Exceptions.printStackTrace(ex);
+                }
+            }
         }
     }
 
@@ -103,12 +96,12 @@ public class CloseUnitAction extends UnitActionBase {
 
     public Action createContextAwareInstance(Lookup actionContext) {
         if (logger.isLoggable(Level.FINER)) {
-            Action action = new CloseUnitAction(actionContext);
+            Action action = new ExecuteCommandAction(actionContext);
             logger.log(Level.FINER,
                        "Context aware action instance created: {0}", action);
             return action;
         } else {
-            return new CloseUnitAction(actionContext);
+            return new ExecuteCommandAction(actionContext);
         }
     }
 }

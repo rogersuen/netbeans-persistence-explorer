@@ -60,6 +60,13 @@
                             <attr name="position" intvalue="100"/>
                         </file>
                         <file name="org-javaplus-netbeans-persistence-explorer-action-CloseUnitAction.instance">
+                            <attr name="position" intvalue="150"/>
+                        </file>
+                        <file name="Separator1.instance">
+                            <attr name="instanceClass" stringvalue="javax.swing.JSeparator"/>
+                            <attr name="position" intvalue="199"/>
+                        </file>
+                        <file name="org-javaplus-netbeans-persistence-explorer-action-ExecuteCommandAction.instance">
                             <attr name="position" intvalue="200"/>
                         </file>
                     </folder>
@@ -74,6 +81,10 @@
                     <folder name="Actions">
                     </folder>
                     <folder name="Children">
+                        <file name="ManagedTypeNodeProviderFactory.instance">
+                            <attr name="instanceCreate" methodvalue="org.javaplus.netbeans.persistence.explorer.node.ManagedTypeNodeProvider$Factory.getInstance"/>
+                            <attr intvalue="100" name="position"/>
+                        </file>
                     </folder>
                 </folder>
                 <folder name="EntityTypeListNode">
@@ -86,10 +97,29 @@
                         </file>
                     </folder>
                 </folder>
+                <folder name="EntityTypeNode">
+                    <folder name="Actions">
+                    </folder>
+                    <folder name="Children">
+                        <file name="AttributeNodeProviderFactory.instance">
+                            <attr name="instanceCreate" methodvalue="org.javaplus.netbeans.persistence.explorer.node.AttributeNodeProvider$Factory.getInstance"/>
+                            <attr intvalue="100" name="position"/>
+                        </file>
+                    </folder>
+                </folder>
+                <folder name="ManagedTypeNode">
+                    <folder name="Actions">
+                    </folder>
+                    <folder name="Children">
+                        <file name="AttributeNodeProviderFactory.instance">
+                            <attr name="instanceCreate" methodvalue="org.javaplus.netbeans.persistence.explorer.node.AttributeNodeProvider$Factory.getInstance"/>
+                            <attr intvalue="100" name="position"/>
+                        </file>
+                    </folder>
+                </folder>
             </folder>
         </folder>
     </folder>
-
     <folder name="UI">
         <folder name="Runtime">
             <file name="org-javaplus-netbeans-persistence-explorer-node-RootNode.instance">
@@ -102,4 +132,34 @@
             </file>
         </folder>
     </folder>
+
+    <folder name="Editors">
+        <folder name="text">
+            <folder name="x-ql">
+                <file name="EditorKit.instance">
+                    <attr name="instanceClass" stringvalue="org.javaplus.netbeans.persistence.ql.editor.QLEditorKit"/>
+                    <attr name="instanceOf" stringvalue="javax.swing.text.EditorKit,org.javaplus.netbeans.persistence.ql.editor.QLEditorKit"/>
+                    <attr name="beaninfo" boolvalue="false"/>
+                </file>
+
+                <folder name="Toolbars">
+                    <folder name="Default">
+                        <file name="org-javaplus-netbeans-persistence-ql-editor-action-ExecuteQueryAction.shadow">
+                            <attr name="originalFile" stringvalue="Actions/System/org-javaplus-netbeans-persistence-ql-editor-action-ExecuteQueryAction.instance"/>
+                            <attr name="position" intvalue="800"/>
+                        </file>
+                    </folder>
+                </folder>
+            </folder>
+        </folder>
+    </folder>
+
+    <folder name="Actions">
+        <folder name="System">
+            <file name="org-javaplus-netbeans-persistence-ql-editor-action-ExecuteQueryAction.instance">
+                <attr name="iconBase" stringvalue="org/javaplus/netbeans/persistence/resources/executeJPQL.gif"/>
+            </file>
+        </folder>
+    </folder>
+
 </filesystem>

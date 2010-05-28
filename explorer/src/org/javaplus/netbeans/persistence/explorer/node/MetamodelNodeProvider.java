@@ -94,6 +94,7 @@ public class MetamodelNodeProvider extends NodeProviderBase
         Metamodel metamodel = conn.getMetamodel();
         ArrayList<Node> result = new ArrayList<Node>();
         result.add(new EntityTypeListNode(metamodel));
+        result.add(new ManagedTypeListNode(metamodel));
         return Collections.unmodifiableList(result);
     }
 
