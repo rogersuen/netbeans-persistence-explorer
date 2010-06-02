@@ -1,5 +1,5 @@
 /*
- * @(#)Connection.java   10/06/01
+ * @(#)Connection.java   10/06/02
  *
  * Copyright (c) 2010 Roger Suen(SUNRUJUN)
  *
@@ -32,7 +32,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.Callable;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -243,13 +242,17 @@ public class Connection extends ConnectionEventSupport {
     }
 
     private class ConnectionThreadFactory implements ThreadFactory {
+        @Override
         public Thread newThread(Runnable target) {
             Thread t = new Thread(target);
             t.setName("ConnectionExecutorThread (" + unit.getName() + ")");
-            ClassLoader cl =
-                new URLClassLoader(
-                    getConnectionUrls(),
-                    Thread.currentThread().getContextClassLoader());
+            // NOTE:
+            // DON'T use thread context classloader. The context classloader
+            // is the system class loader of Netbeans. It will try to load
+            // classes from any loaded modules. See:
+            // http://wiki.netbeans.org/DevFaqModuleCCE
+            ClassLoader cl = new URLClassLoader(getConnectionUrls(),
+                                 Connection.class.getClassLoader());
             t.setContextClassLoader(cl);
             return t;
         }
