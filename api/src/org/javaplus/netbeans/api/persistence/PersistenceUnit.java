@@ -1,5 +1,5 @@
 /*
- * @(#)PersistenceUnit.java   10/04/27
+ * @(#)PersistenceUnit.java   10/06/02
  *
  * Copyright (c) 2010 Roger Suen(SUNRUJUN)
  *
@@ -10,6 +10,7 @@
  * http://www.apache.org/licenses/LICENSE-2.0
  *
  */
+
 package org.javaplus.netbeans.api.persistence;
 
 import java.util.ArrayList;
@@ -20,15 +21,15 @@ import java.util.List;
  * @author Roger Suen
  */
 public final class PersistenceUnit {
-
     private String name;
     private String displayName;
     private String description;
+
     // TODO: CopyOnWriteArrayList?
     private final List<UrlSpec> urlSpecs = new ArrayList<UrlSpec>();
 
     public PersistenceUnit(String name, String displayName, String description,
-            List<UrlSpec> urls) {
+                           List<UrlSpec> urls) {
         setName(name);
         setDisplayName(displayName);
         setDescription(description);
@@ -109,16 +110,14 @@ public final class PersistenceUnit {
         if (urlSpecs == null) {
             throw new NullPointerException("null spec list");
         }
+
         this.urlSpecs.addAll(urlSpecs);
     }
 
     @Override
     public String toString() {
-        return "PersistenceUnit{" + 
-                "name=" + name +
-                " displayName=" + displayName +
-                " description=" + description +
-                " urlSpecs=" + urlSpecs + '}';
+        return super.toString() + "[" + "name=" + name + ", displayName="
+               + displayName + ", description=" + description + ", urlSpecs="
+               + urlSpecs + ']';
     }
-
 }

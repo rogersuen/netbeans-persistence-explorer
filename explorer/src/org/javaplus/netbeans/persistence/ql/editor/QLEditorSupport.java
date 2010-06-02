@@ -1,5 +1,5 @@
 /*
- * @(#)QLEditorSupport.java   10/05/20
+ * @(#)QLEditorSupport.java   10/06/02
  *
  * Copyright (c) 2010 Roger Suen(SUNRUJUN)
  *
@@ -15,7 +15,7 @@ package org.javaplus.netbeans.persistence.ql.editor;
 
 import org.javaplus.netbeans.persistence.connection.Session;
 import org.javaplus.netbeans.persistence.ql.query.QueryResult;
-
+import org.javaplus.netbeans.persistence.ql.view.DataView;
 
 import org.openide.awt.TabbedPaneFactory;
 import org.openide.cookies.EditorCookie;
@@ -41,10 +41,8 @@ import java.io.OutputStream;
 
 import java.util.Date;
 
-
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
-import org.javaplus.netbeans.persistence.ql.view.DataView;
 
 /**
  *
@@ -144,6 +142,16 @@ public class QLEditorSupport extends CloneableEditorSupport
     @Override
     protected String documentID() {
         return session.getName();
+    }
+
+    @Override
+    protected boolean canClose() {
+        return true;
+    }
+
+    @Override
+    public void saveDocument() throws IOException {
+        return;
     }
 
     protected String messageSave() {

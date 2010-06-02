@@ -15,8 +15,6 @@ package org.javaplus.netbeans.persistence.explorer.node;
 import org.javaplus.netbeans.api.persistence.explorer.node.NodeBase;
 import org.javaplus.netbeans.api.persistence.PersistenceProvider;
 
-import org.openide.nodes.Node;
-import org.openide.util.Lookup;
 
 /**
  *
@@ -27,15 +25,15 @@ public class ProviderNode extends NodeBase {
     public static final String LAYER_FOLDER = "ProviderNode";
     private static final String ICON_BASE =
             "org/javaplus/netbeans/persistence/resources/persistence.gif";
+            private final PersistenceProvider provider;
+    public ProviderNode(PersistenceProvider provider) {
+        if (provider == null) {
+            throw new NullPointerException("null provider");
+        }
 
-    private ProviderNode(Lookup lookup) {
-        super();
-        addLookup(lookup);
+        this.provider = provider;
+        this.lookup.getInstanceContent().add(provider);
         initProperties();
-    }
-
-    public static Node getInstance(Lookup lookup) {
-        return new ProviderNode(lookup);
     }
 
     @Override
@@ -44,9 +42,6 @@ public class ProviderNode extends NodeBase {
     }
 
     private void initProperties() {
-        PersistenceProvider provider =
-                getLookup().lookup(PersistenceProvider.class);
-
         // init our properties
         setName(provider.getName());
         setDisplayName(provider.getDisplayName());

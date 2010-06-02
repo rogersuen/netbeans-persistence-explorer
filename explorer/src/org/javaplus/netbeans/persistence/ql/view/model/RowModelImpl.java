@@ -39,7 +39,7 @@ public class RowModelImpl implements RowModel {
         DataDescriptor descriptor = (DataDescriptor) node;
         switch (column) {
         case 0 :
-            return descriptor.getDisplayType();
+            return descriptor.getDeclaredType().getName();
 
         case 1 :
             return descriptor.getDisplayValue();

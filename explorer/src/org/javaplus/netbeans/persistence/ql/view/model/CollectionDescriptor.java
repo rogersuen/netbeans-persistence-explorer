@@ -1,5 +1,5 @@
 /*
- * @(#)CollectionDescriptor.java   10/05/26
+ * @(#)CollectionDescriptor.java   10/05/28
  *
  * Copyright (c) 2010 Roger Suen(SUNRUJUN)
  *
@@ -32,16 +32,17 @@ public class CollectionDescriptor extends AbstractCollectionDescriptor {
     private static final Icon ICON = ImageUtilities.loadImageIcon(ICON_BASE,
                                          true);
 
-    public CollectionDescriptor(Collection data, Class dataType,
-                                Class elementType,
-                                DataDescriptorProvider provider) {
-        super(data, dataType, elementType, provider);
+    public CollectionDescriptor(DataDescriptor parent, Collection data,
+                                Class dataType, Class elementType,
+                                DataDescriptorBuilder provider) {
+        super(parent, data, dataType, elementType, provider);
     }
 
     public static CollectionDescriptor createCollectionDescriptor(
-            Collection data, Class dataType, Class elementType,
-            DataDescriptorProvider provider) {
-        return new CollectionDescriptor(data, dataType, elementType, provider);
+            DataDescriptor parent, Collection data, Class dataType,
+            Class elementType, DataDescriptorBuilder provider) {
+        return new CollectionDescriptor(parent, data, dataType, elementType,
+                                        provider);
     }
 
     @Override

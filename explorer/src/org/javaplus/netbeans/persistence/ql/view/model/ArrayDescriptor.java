@@ -1,5 +1,5 @@
 /*
- * @(#)ArrayDescriptor.java   10/05/27
+ * @(#)ArrayDescriptor.java   10/05/28
  *
  * Copyright (c) 2010 Roger Suen(SUNRUJUN)
  *
@@ -33,14 +33,14 @@ public class ArrayDescriptor extends AbstractCollectionDescriptor {
     private static final Icon ICON = ImageUtilities.loadImageIcon(ICON_BASE,
                                          true);
 
-    public ArrayDescriptor(Object data, Class dataType, Class elementType,
-                           DataDescriptorProvider provider) {
-        super(data, dataType, elementType, provider);
+    public ArrayDescriptor(DataDescriptor parent, Object data, Class dataType,
+                           Class elementType, DataDescriptorBuilder provider) {
+        super(parent, data, dataType, elementType, provider);
     }
 
-    public static ArrayDescriptor createArrayDescriptor(Object data,
-            Class dataType, Class elementType,
-            DataDescriptorProvider provider) {
+    public static ArrayDescriptor createArrayDescriptor(DataDescriptor parent,
+            Object data, Class dataType, Class elementType,
+            DataDescriptorBuilder provider) {
         if ((dataType != null) &&!dataType.isArray()) {
             throw new IllegalArgumentException(
                 "The specified dataType does not represent an array class: "
@@ -54,7 +54,8 @@ public class ArrayDescriptor extends AbstractCollectionDescriptor {
         // no further argument check needed here
         // super constructor will ensure type compatibility between
         // the specified data and data type
-        return new ArrayDescriptor(data, dataType, elementType, provider);
+        return new ArrayDescriptor(parent, data, dataType, elementType,
+                                   provider);
     }
 
     @Override

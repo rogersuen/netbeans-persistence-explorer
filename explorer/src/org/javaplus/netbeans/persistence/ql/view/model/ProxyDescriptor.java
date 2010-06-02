@@ -1,5 +1,5 @@
 /*
- * @(#)ProxyDataDescriptor.java   10/05/26
+ * @(#)ProxyDescriptor.java   10/05/31
  *
  * Copyright (c) 2010 Roger Suen(SUNRUJUN)
  *
@@ -16,68 +16,76 @@ package org.javaplus.netbeans.persistence.ql.view.model;
 import javax.swing.Icon;
 
 /**
- *
+ * <p>
+ * A <tt>ProxyDescriptor</tt> wraps another data descriptor, and delegates all
+ * method calls to the corresponding methods of the wrapped one.</p>
+ *<p>
+ * Subclasses of this class typically override some of the methods of this
+ * class to change some behavious of the wrapped data descriptor.</p>
+ * 
  * @author Roger Suen
  */
-public class ProxyDataDescriptor implements DataDescriptor {
+public class ProxyDescriptor implements DataDescriptor {
     private final DataDescriptor dataDescriptor;
 
-    protected ProxyDataDescriptor(DataDescriptor dataDescriptor) {
-        if (dataDescriptor == null) {
-            throw new NullPointerException("null data descriptor");
+    /**
+     * Constructs a new instance of <tt>ProxyDescriptor</tt> for the specified
+     * data descriptor.
+     * @param wrapped the data descriptor to proxy, cannot be <tt>null</tt>.
+     * @throws NullPointerException if <tt>wrapped</tt> is <tt>null</tt>.
+     */
+    protected ProxyDescriptor(DataDescriptor wrapped) {
+        if (wrapped == null) {
+            throw new NullPointerException("null wrapped");
         }
 
-        this.dataDescriptor = dataDescriptor;
+        this.dataDescriptor = wrapped;
     }
 
-    public final DataDescriptor getDataDescriptor() {
+    /**
+     * Returns the wrapped data descriptor.
+     * @return the wrapped data descriptor.
+     */
+    public final DataDescriptor getWrapped() {
         return dataDescriptor;
+    }
+
+    public DataDescriptor getParent() {
+        return dataDescriptor.getParent();
     }
 
     public Object getData() {
         return dataDescriptor.getData();
     }
 
-    public Class getDataType() {
-        return dataDescriptor.getDataType();
+    public Class getDeclaredType() {
+        return dataDescriptor.getDeclaredType();
     }
 
-    @Override
     public String getDisplayName() {
         return dataDescriptor.getDisplayName();
     }
 
-    @Override
     public String getDisplayValue() {
         return dataDescriptor.getDisplayValue();
     }
 
-    @Override
-    public String getDisplayType() {
-        return dataDescriptor.getDisplayType();
-    }
-
-    @Override
     public String getShortDescription() {
         return dataDescriptor.getShortDescription();
     }
 
-    @Override
     public Icon getIcon() {
         return dataDescriptor.getIcon();
     }
 
-    @Override
     public int getChildCount() {
         return dataDescriptor.getChildCount();
     }
 
-    @Override
     public DataDescriptor getChild(int index) {
         return dataDescriptor.getChild(index);
     }
 
-    @Override
     public int getIndexOfChild(DataDescriptor child) {
         return dataDescriptor.getIndexOfChild(child);
     }

@@ -1,12 +1,12 @@
 /*
- * @(#)PersistenceUnitConverter.java   10/04/28
- * 
+ * @(#)PersistenceUnitConverter.java   10/06/02
+ *
  * Copyright (c) 2010 Roger Suen(SUNRUJUN)
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
  */
@@ -17,6 +17,7 @@ import org.openide.ErrorManager;
 import org.openide.cookies.InstanceCookie;
 import org.openide.filesystems.FileObject;
 import org.openide.filesystems.FileUtil;
+import org.openide.loaders.DataFolder;
 import org.openide.loaders.DataObject;
 import org.openide.util.Lookup;
 import org.openide.util.lookup.AbstractLookup;
@@ -45,11 +46,12 @@ import java.util.logging.Logger;
  * @author Roger Suen
  */
 class PersistenceUnitConverter implements Lookup.Provider {
+
     /**
      * The singleton logger
      */
-    private static final Logger logger = Logger.getLogger(PersistenceUnitConverter.class.getName());
-
+    private static final Logger logger =
+        Logger.getLogger(PersistenceUnitConverter.class.getName());
     private DataObject dataObject;
     private Lookup lookup;
     private Reference<PersistenceUnit> unitRef =
@@ -75,22 +77,22 @@ class PersistenceUnitConverter implements Lookup.Provider {
     }
 
     /**
-     * Returns the lookup provider for the specified data object. This method
+     * Returns the lookup unit for the specified data object. This method
      * is used by the
      * {@link PersistenceUnitEnvironmentProvider#getEnvironment(DataObject) }
      * method.
-     * 
-     * @param dataObject the data object for which a lookup provider 
+     *
+     * @param dataObject the data object for which a lookup unit
      *                   is requested, cannot be <tt>null</tt>
-     * @return an lookup provider instance
+     * @return an lookup unit instance
      * @throws NullPointerException if <tt>dataObject</tt> is <tt>null</tt>
      * @see PersistenceUnitEnvironmentProvider
      */
     public static Lookup.Provider getLookupProvider(DataObject dataObject) {
+
         // TODO: same instance for the same data object
         return new PersistenceUnitConverter(dataObject);
     }
-
 
     private static PersistenceUnit readFromFileObject(FileObject file) {
         Handler handler = new Handler();
@@ -127,14 +129,45 @@ class PersistenceUnitConverter implements Lookup.Provider {
         if (pu == null) {
             throw new NullPointerException("null peristence unit");
         }
-        
-        AtomicWrite atomicWrite = new AtomicWrite(
-                PersistenceUnitManager.LAYER_FOLDER,
-                pu.getName(), // TODO: is the name always valid for file name?
-                "xml",
-                toXMLString(pu) // possible CharConversionException
-                );
+
+        // possible CharConversionException from toXMLString
+        AtomicWrite atomicWrite =
+            new AtomicWrite(PersistenceUnitManager.LAYER_FOLDER, pu.getName(),
+                            "xml", toXMLString(pu));
         FileUtil.runAtomicAction(atomicWrite);
+    }
+
+    public static boolean remove(PersistenceUnit unit) throws IOException {
+        boolean removed = false;
+        String name = unit.getName();
+
+        // TODO: remove dependency from converter to manager
+        FileObject fo =
+            FileUtil.getConfigFile(PersistenceUnitManager.LAYER_FOLDER);
+        DataFolder folder = DataFolder.findFolder(fo);
+        DataObject[] objects = folder.getChildren();
+        for (int i = 0; i < objects.length; i++) {
+            InstanceCookie ic = objects[i].getCookie(InstanceCookie.class);
+            if (ic != null) {
+                Object obj = null;
+                try {
+                    obj = ic.instanceCreate();
+                } catch (ClassNotFoundException e) {
+                    continue;
+                }
+
+                if (obj instanceof PersistenceUnit) {
+                    PersistenceUnit u = (PersistenceUnit) obj;
+                    if (u.getName().equals(name)) {
+                        objects[i].delete();
+                        removed = true;
+                        break;
+                    }
+                }
+            }
+        }
+
+        return removed;
     }
 
     private static String toXMLString(PersistenceUnit pu)
@@ -146,7 +179,9 @@ class PersistenceUnitConverter implements Lookup.Provider {
         StringBuilder sb = new StringBuilder(512);
         sb.append("<?xml version='1.0' encoding='UTF-8'?>\n");
         sb.append(
-            "<!DOCTYPE unit PUBLIC '-//JavaPlus//DTD Persistence Unit 1.0//EN' 'http://www.javaplus.org/dtds/persistence-unit-1_0.dtd'>\n");
+            "<!DOCTYPE unit PUBLIC "
+            + "'-//JavaPlus//DTD Persistence Unit 1.0//EN' "
+            + "'http://www.javaplus.org/dtds/persistence-unit-1_0.dtd'>\n");
         sb.append("<unit version='1.0'>\n");
         sb.append("<name value='");
         sb.append(XMLUtil.toAttributeValue(pu.getName()));

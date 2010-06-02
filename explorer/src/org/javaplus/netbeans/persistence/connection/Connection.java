@@ -1,12 +1,12 @@
 /*
- * @(#)Connection.java   10/05/07
- * 
+ * @(#)Connection.java   10/06/01
+ *
  * Copyright (c) 2010 Roger Suen(SUNRUJUN)
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
  */
@@ -95,7 +95,6 @@ public class Connection extends ConnectionEventSupport {
     private final List<Session> sessions = new CopyOnWriteArrayList<Session>();
     private int nextSessionId = 1;
 
-
     /**
      * Constructs a new instance of <tt>Connection</tt> with the specified
      * connection manager and the persistence unit.
@@ -181,7 +180,7 @@ public class Connection extends ConnectionEventSupport {
     }
 
     /**
-     * 
+     *
      * @return
      * @throws ConnectionException
      */
@@ -214,8 +213,9 @@ public class Connection extends ConnectionEventSupport {
     }
 
     private void closeAllSessions() {
-        for (Session session: sessions) {
+        for (Session session : sessions) {
             try {
+
                 // NOTE:
                 // Although the Session.close() method will call
                 // Connection.removeSession() method to remove it from
@@ -267,8 +267,7 @@ public class Connection extends ConnectionEventSupport {
         PersistenceProvider[] providers =
             PersistenceProviderManager.getDefault().getProviders();
         for (int i = 0; i < providers.length; i++) {
-            PersistenceProvider provider = providers[i];
-            List<URL> providerUrls = provider.getUrls();
+            List<URL> providerUrls = PersistenceUtil.getUrls(providers[i]);
             urlList.addAll(providerUrls);
         }
 

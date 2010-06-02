@@ -1,5 +1,5 @@
 /*
- * @(#)ContextAwareActionBase.java   10/05/18
+ * @(#)ContextAwareActionBase.java   10/06/01
  *
  * Copyright (c) 2010 Roger Suen(SUNRUJUN)
  *
@@ -21,9 +21,6 @@ import org.openide.util.Utilities;
 
 import java.awt.event.ActionEvent;
 
-import java.util.Collection;
-
-import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.SwingUtilities;
 
@@ -31,15 +28,46 @@ import javax.swing.SwingUtilities;
  *
  * @author Roger Suen
  */
-public abstract class ContextAwareActionBase<T> extends AbstractAction
-        implements ContextAwareAction, LookupListener {
+public abstract class ContextAwareActionBase<T> extends ActionBase
+        implements ContextAwareAction {
+    protected final Lookup context;
+    protected Lookup.Result<T> lookupResult;
     private final Class<T> type;
-    private Lookup context;
-    private Lookup.Result<T> lookupResult;
+    private LookupListener lookupListener;
 
-    protected ContextAwareActionBase(Class<T> type) {
+    protected ContextAwareActionBase(Class<T> type, Lookup context) {
+        if (type == null) {
+            throw new NullPointerException("null type");
+        }
+
         this.type = type;
-        this.context = Utilities.actionsGlobalContext();
+        if (context != null) {
+            this.context = context;
+        } else {
+            this.context = Utilities.actionsGlobalContext();
+        }
+    }
+
+    @Override
+    public abstract Action createContextAwareInstance(Lookup context);
+
+    protected abstract void actionPerformed();
+
+    protected void contextChanged() {
+
+        // do nothing
+    }
+
+    @Override
+    public final boolean isEnabled() {
+        init();
+        return super.isEnabled();
+    }
+
+    @Override
+    public final void actionPerformed(ActionEvent e) {
+        init();
+        actionPerformed();
     }
 
     private void init() {
@@ -49,41 +77,16 @@ public abstract class ContextAwareActionBase<T> extends AbstractAction
             return;
         }
 
-        //The thing we want to listen for the presence or absence of
-        //on the global selection
+        lookupListener = new LookupListenerImpl();
         lookupResult = context.lookupResult(type);
-        lookupResult.addLookupListener(this);
-        resultChanged(null);
+        lookupResult.addLookupListener(lookupListener);
+        contextChanged();
     }
 
-    public final void resultChanged(LookupEvent ev) {
-        contextChanged((Collection<T>) lookupResult.allInstances());
-    }
-
-    public final void actionPerformed(ActionEvent e) {
-        init();
-        actionPerformed((Collection<T>) lookupResult.allInstances());
-    }
-
-    public Action createContextAwareInstance(Lookup actionContext) {
-        ContextAwareActionBase action = null;
-        try {
-            action = getClass().newInstance();
-        } catch (Exception ex) {
-            throw new RuntimeException();
+    private class LookupListenerImpl implements LookupListener {
+        @Override
+        public void resultChanged(LookupEvent ev) {
+            contextChanged();
         }
-
-        action.context = actionContext;
-        return action;
-    }
-
-    protected abstract void contextChanged(Collection<T> instances);
-
-    protected abstract void actionPerformed(Collection<T> instances);
-
-    @Override
-    public boolean isEnabled() {
-        init();
-        return super.isEnabled();
     }
 }

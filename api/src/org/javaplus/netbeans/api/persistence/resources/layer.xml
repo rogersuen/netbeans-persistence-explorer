@@ -2,7 +2,7 @@
 <!DOCTYPE filesystem PUBLIC "-//NetBeans//DTD Filesystem 1.1//EN" "http://www.netbeans.org/dtds/filesystem-1_1.dtd">
 <filesystem>
     <folder name="Persistence">
-        <folder name="PersistenceProviders">
+        <folder name="Providers">
         </folder>
         <folder name="PersistenceUnits">
         </folder>

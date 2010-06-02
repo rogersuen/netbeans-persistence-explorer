@@ -1,56 +1,51 @@
 /*
- * @(#)PersistenceProvider.java   10/04/28
- * 
+ * @(#)PersistenceProvider.java   10/06/01
+ *
  * Copyright (c) 2010 Roger Suen(SUNRUJUN)
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
  */
 
 package org.javaplus.netbeans.api.persistence;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
- * @author roger
+ * TODO: consider the threading problem
+ * @author Roger Suen
  */
-public class PersistenceProvider {
+public final class PersistenceProvider {
     private String name;
     private String displayName;
     private String description;
-    private final List<URL> urls = new LinkedList<URL>();
+    private final List<UrlSpec> urlSpecs = new ArrayList<UrlSpec>();
 
     public PersistenceProvider(String name, String displayName,
-                               String description, List<String> urls)
-            throws MalformedURLException {
+                               String description, List<UrlSpec> urls) {
         setName(name);
         setDisplayName(displayName);
         setDescription(description);
-        addUrls(urls);
+        addUrlSpecs(urls);
     }
 
     /**
-     * Get the value of name
-     *
-     * @return the value of name
+     * Returns the name of this persistence provider.
+     * @return the name of this persistence provider.
      */
     public String getName() {
         return name;
     }
 
     /**
-     * Set the value of name
-     *
-     * @param name new value of name
+     * Sets the new value of the name of this persistence provider.
+     * @param name new value of the name, cannot be <tt>null</tt>
+     * @throws NullPointerException if <tt>name</tt> is <tt>null</tt>
      */
     public void setName(String name) {
         if (name == null) {
@@ -61,9 +56,8 @@ public class PersistenceProvider {
     }
 
     /**
-     * Get the value of displayName
-     *
-     * @return the value of displayName
+     * Returns the display name of this persistence provider.
+     * @return the display name of this persistence provider.
      */
     public String getDisplayName() {
         if (displayName == null) {
@@ -74,30 +68,55 @@ public class PersistenceProvider {
     }
 
     /**
-     * Set the value of displayName
-     *
-     * @param displayName new value of displayName
+     * Sets the new value of the display name of this persistence provider.
+     * @param displayName new value of the display name.
      */
     public void setDisplayName(String displayName) {
         this.displayName = displayName;
     }
 
+    /**
+     * Returns the short description of this persistence provider.
+     * @return the short description of this persistence provider.
+     */
     public String getDescription() {
         return description;
     }
 
+    /**
+     * Sets the new value of the short description of this persistence provider.
+     * @param description new value of the short description.
+     */
     public void setDescription(String description) {
         this.description = description;
     }
 
-    public List<URL> getUrls() {
-        return urls;
+    /**
+     * Returns the class path URLs of this persistence provider as a mutable
+     * list. Each entry of class path URLs is wrapped in a {@link UrlSpec}
+     * object.
+     * @return a mutable list of <tt>UrlSpec</tt>s.
+     */
+    public List<UrlSpec> getUrlSpecs() {
+        return urlSpecs;
     }
 
-    public void addUrls(List<String> urlStrings) throws MalformedURLException {
-        for (String urlString : urlStrings) {
-            URL url = new URL(urlString);
-            this.urls.add(url);
+    /**
+     * Adds a list of <tt>UrlSpec</tt>s.
+     * @param urlSpecs a list of <tt>UrlSpec</tt>s to add
+     */
+    public void addUrlSpecs(List<UrlSpec> urlSpecs) {
+        if (urlSpecs == null) {
+            throw new NullPointerException("null spec list");
         }
+
+        this.urlSpecs.addAll(urlSpecs);
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + "[" + "name=" + name + ", displayName="
+               + displayName + ", description=" + description + ", urlSpecs="
+               + urlSpecs + ']';
     }
 }

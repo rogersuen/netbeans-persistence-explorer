@@ -50,39 +50,12 @@
                     </run-dependency>
                 </dependency>
                 <dependency>
-                    <code-name-base>org.netbeans.modules.editor.fold</code-name-base>
-                    <build-prerequisite/>
-                    <compile-dependency/>
-                    <run-dependency>
-                        <release-version>1</release-version>
-                        <specification-version>1.13.1</specification-version>
-                    </run-dependency>
-                </dependency>
-                <dependency>
-                    <code-name-base>org.netbeans.modules.editor.indent</code-name-base>
-                    <build-prerequisite/>
-                    <compile-dependency/>
-                    <run-dependency>
-                        <release-version>2</release-version>
-                        <specification-version>1.15.1.9</specification-version>
-                    </run-dependency>
-                </dependency>
-                <dependency>
                     <code-name-base>org.netbeans.modules.editor.lib</code-name-base>
                     <build-prerequisite/>
                     <compile-dependency/>
                     <run-dependency>
                         <release-version>1</release-version>
                         <specification-version>1.44.1.9.2</specification-version>
-                    </run-dependency>
-                </dependency>
-                <dependency>
-                    <code-name-base>org.netbeans.modules.editor.lib2</code-name-base>
-                    <build-prerequisite/>
-                    <compile-dependency/>
-                    <run-dependency>
-                        <release-version>1</release-version>
-                        <specification-version>1.18.1.2</specification-version>
                     </run-dependency>
                 </dependency>
                 <dependency>
@@ -194,12 +167,16 @@
                 </test-type>
             </test-dependencies>
             <public-packages>
+                <package>org.javaplus.netbeans.persistence.action</package>
                 <package>org.javaplus.netbeans.persistence.connection</package>
                 <package>org.javaplus.netbeans.persistence.explorer.action</package>
                 <package>org.javaplus.netbeans.persistence.explorer.dialog</package>
                 <package>org.javaplus.netbeans.persistence.explorer.node</package>
                 <package>org.javaplus.netbeans.persistence.ql.editor</package>
-                <package>org.javaplus.netbeans.persistence.ql.loader</package>
+                <package>org.javaplus.netbeans.persistence.ql.editor.action</package>
+                <package>org.javaplus.netbeans.persistence.ql.query</package>
+                <package>org.javaplus.netbeans.persistence.ql.view</package>
+                <package>org.javaplus.netbeans.persistence.ql.view.model</package>
             </public-packages>
         </data>
     </configuration>

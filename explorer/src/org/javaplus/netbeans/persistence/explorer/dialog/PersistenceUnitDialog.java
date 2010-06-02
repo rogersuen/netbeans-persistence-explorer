@@ -17,7 +17,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import javax.swing.event.ListDataEvent;
-import org.javaplus.netbeans.api.persistence.PersistenceUnitManagerException;
+import org.javaplus.netbeans.api.persistence.PersistenceUnitException;
 import org.openide.DialogDescriptor;
 import org.openide.DialogDisplayer;
 import org.openide.util.Exceptions;
@@ -97,16 +97,19 @@ public class PersistenceUnitDialog extends JPanel {
 
         urlsList.getModel().addListDataListener(new ListDataListener() {
 
+            @Override
             public void intervalAdded(ListDataEvent e) {
                 resolveConfigurationFiles();
                 updateState();
             }
 
+            @Override
             public void intervalRemoved(ListDataEvent e) {
                 resolveConfigurationFiles();
                 updateState();
             }
 
+            @Override
             public void contentsChanged(ListDataEvent e) {
                 resolveConfigurationFiles();
                 updateState();
@@ -115,6 +118,7 @@ public class PersistenceUnitDialog extends JPanel {
 
         confUrlComboBox.addItemListener(new ItemListener() {
 
+            @Override
             public void itemStateChanged(ItemEvent e) {
                 resolveUnitNames();
             }
@@ -139,19 +143,19 @@ public class PersistenceUnitDialog extends JPanel {
         dialog.setVisible(true);
 
         if (DialogDescriptor.OK_OPTION == dd.getValue()) {
-            String name = (String)panel.nameComboBoxModel.getSelectedItem();
+            String name = (String) panel.nameComboBoxModel.getSelectedItem();
             String displayName = panel.displayNameTextField.getText();
             String description = panel.descriptionTextArea.getText();
             int size = panel.urlsListModel.size();
             ArrayList<UrlSpec> urlSpecs = new ArrayList<UrlSpec>(size);
-            for (int i=0;i<size;i++) {
-                urlSpecs.add((UrlSpec)panel.urlsListModel.get(i));
+            for (int i = 0; i < size; i++) {
+                urlSpecs.add((UrlSpec) panel.urlsListModel.get(i));
             }
-            
+
             PersistenceUnit pu = new PersistenceUnit(name, displayName, description, urlSpecs);
             try {
                 PersistenceUnitManager.getDefault().addUnit(pu);
-            } catch (PersistenceUnitManagerException ex) {
+            } catch (PersistenceUnitException ex) {
                 Exceptions.printStackTrace(ex);
             }
         }

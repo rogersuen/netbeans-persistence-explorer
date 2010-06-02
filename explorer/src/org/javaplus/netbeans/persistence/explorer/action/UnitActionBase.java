@@ -13,6 +13,7 @@
 
 package org.javaplus.netbeans.persistence.explorer.action;
 
+import org.javaplus.netbeans.persistence.action.ActionBase;
 import org.javaplus.netbeans.api.persistence.PersistenceUnit;
 
 import org.openide.util.ContextAwareAction;

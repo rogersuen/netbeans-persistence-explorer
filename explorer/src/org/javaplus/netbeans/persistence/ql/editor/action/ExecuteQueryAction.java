@@ -1,5 +1,5 @@
 /*
- * @(#)ExecuteQueryAction.java   10/05/18
+ * @(#)ExecuteQueryAction.java   10/06/01
  *
  * Copyright (c) 2010 Roger Suen(SUNRUJUN)
  *
@@ -25,6 +25,7 @@ import java.awt.Component;
 import java.util.Collection;
 import java.util.logging.Logger;
 
+import javax.swing.Action;
 import javax.swing.JButton;
 
 /**
@@ -37,21 +38,36 @@ public class ExecuteQueryAction extends ContextAwareActionBase<Session>
         Logger.getLogger(ExecuteQueryAction.class.getName());
 
     public ExecuteQueryAction() {
-        super(Session.class);
+        this(null);
+    }
+
+    public ExecuteQueryAction(Lookup context) {
+        super(Session.class, context);
         putValue(NAME, "Execute Query");
         putValue("iconBase",
                  "org/javaplus/netbeans/persistence/resources/executeJPQL.gif");
     }
 
-    protected void actionPerformed(Collection<Session> instances) {
-        if (instances.size() != 1)
-            return ;
+    @Override
+    public Action createContextAwareInstance(Lookup context) {
+        return new ExecuteQueryAction(context);
+    }
+
+    @Override
+    protected void actionPerformed() {
+        Collection<? extends Session> instances = lookupResult.allInstances();
+        if (instances.size() != 1) {
+            return;
+        }
+
         Session session = instances.iterator().next();
         session.executeQuery();
     }
 
-    protected void contextChanged(Collection<Session> instances) {}
+    @Override
+    protected void contextChanged() {}
 
+    @Override
     public Component getToolbarPresenter() {
         JButton button = new JButton();
         Actions.connect(button, this);

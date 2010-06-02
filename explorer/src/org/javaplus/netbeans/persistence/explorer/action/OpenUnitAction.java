@@ -1,5 +1,6 @@
 package org.javaplus.netbeans.persistence.explorer.action;
 
+import org.javaplus.netbeans.persistence.action.ActionBase;
 import java.awt.event.ActionEvent;
 import java.util.Collection;
 import java.util.logging.Level;

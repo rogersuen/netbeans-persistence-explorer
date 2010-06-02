@@ -16,17 +16,18 @@ import org.javaplus.netbeans.persistence.action.ActionBase;
 import org.openide.util.NbBundle;
 
 import java.awt.event.ActionEvent;
-import org.javaplus.netbeans.persistence.explorer.dialog.PersistenceUnitDialog;
+import org.javaplus.netbeans.persistence.explorer.dialog.ProviderDialog;
 
-public final class NewUnitAction extends ActionBase {
+public final class NewProviderAction extends ActionBase {
 
-    private static final String KEY_NAME = "NewUnitAction.NAME";
+    private static final String KEY_NAME = "NewProviderAction.NAME";
 
-    public NewUnitAction() {
-        putValue(NAME, NbBundle.getMessage(NewUnitAction.class, KEY_NAME));
+    public NewProviderAction() {
+        putValue(NAME, NbBundle.getMessage(NewProviderAction.class, KEY_NAME));
     }
 
+    @Override
     public void actionPerformed(ActionEvent e) {
-        PersistenceUnitDialog.showDialog();
+        ProviderDialog.showDialog();
     }
 }

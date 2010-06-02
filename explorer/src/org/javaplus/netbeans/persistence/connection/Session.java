@@ -122,6 +122,8 @@ public class Session {
         } catch (BadLocationException ex) {
         }
         Query query = entityManager.createQuery(qlString);
+        // TODO: changed this when paging support is ready
+        query.setMaxResults(10);
         return new PreparedQuery(query, qlString, entityManager);
     }
 

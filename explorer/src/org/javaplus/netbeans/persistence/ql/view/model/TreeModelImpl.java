@@ -1,5 +1,5 @@
 /*
- * @(#)TreeModelImpl.java   10/05/26
+ * @(#)TreeModelImpl.java   10/05/28
  *
  * Copyright (c) 2010 Roger Suen(SUNRUJUN)
  *
@@ -33,9 +33,9 @@ public class TreeModelImpl implements TreeModel {
             throw new NullPointerException("null entity manager");
         }
 
-        DataDescriptorProvider ddp =
-            DataDescriptorProvider.getInstance(entityManager);
-        this.root = ddp.createDataDescriptor(root, root.getClass());
+        DataDescriptorBuilder ddp =
+            DataDescriptorBuilder.getInstance(entityManager);
+        this.root = ddp.createDataDescriptor(null, root, root.getClass());
     }
 
     public Object getRoot() {

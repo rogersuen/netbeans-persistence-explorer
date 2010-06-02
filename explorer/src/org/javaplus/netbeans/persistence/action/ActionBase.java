@@ -1,4 +1,4 @@
-package org.javaplus.netbeans.persistence.explorer.action;
+package org.javaplus.netbeans.persistence.action;
 
 import javax.swing.AbstractAction;
 

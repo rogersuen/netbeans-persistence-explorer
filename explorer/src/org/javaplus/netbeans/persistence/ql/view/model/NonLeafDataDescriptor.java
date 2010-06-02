@@ -1,5 +1,5 @@
 /*
- * @(#)NonLeafDataDescriptor.java   10/05/26
+ * @(#)NonLeafDataDescriptor.java   10/05/28
  *
  * Copyright (c) 2010 Roger Suen(SUNRUJUN)
  *
@@ -22,9 +22,10 @@ import java.util.ArrayList;
 public abstract class NonLeafDataDescriptor extends DataDescriptorBase {
     protected final ArrayList<DataDescriptor> children;
 
-    protected NonLeafDataDescriptor(Object data, Class declaredType,
-                                    DataDescriptorProvider provider) {
-        super(data, declaredType, provider);
+    protected NonLeafDataDescriptor(DataDescriptor parent, Object data,
+                                    Class declaredType,
+                                    DataDescriptorBuilder provider) {
+        super(parent, data, declaredType, provider);
         this.children = new ArrayList<DataDescriptor>();
     }
 

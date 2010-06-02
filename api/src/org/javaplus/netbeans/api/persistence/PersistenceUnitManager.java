@@ -1,5 +1,5 @@
 /*
- * @(#)PersistenceUnitManager.java   10/04/19
+ * @(#)PersistenceUnitManager.java   10/06/02
  *
  * Copyright (c) 2010 Roger Suen(SUNRUJUN)
  *
@@ -10,24 +10,27 @@
  * http://www.apache.org/licenses/LICENSE-2.0
  *
  */
+
 package org.javaplus.netbeans.api.persistence;
 
+import org.openide.util.Lookup;
+import org.openide.util.LookupEvent;
+import org.openide.util.LookupListener;
+import org.openide.util.lookup.Lookups;
+
 import java.io.IOException;
+
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.openide.util.Lookup;
-import org.openide.util.LookupEvent;
-import org.openide.util.LookupListener;
-import org.openide.util.lookup.Lookups;
 
 /**
  * The basic service for managing the registry of persistence units in
  * the Persistence Explorer.
- * 
+ *
  * @author Roger Suen
  */
 public final class PersistenceUnitManager {
@@ -37,37 +40,43 @@ public final class PersistenceUnitManager {
      * persistence units are registered.
      */
     public static final String LAYER_FOLDER = "Persistence/PersistenceUnits";
+
     /**
      * The singleton default instance.
      */
     private static final PersistenceUnitManager DEFAULT =
-            new PersistenceUnitManager();
+        new PersistenceUnitManager();
+
     /**
      * The singleton instance of logger.
      */
-    private static final Logger logger = Logger.getLogger(PersistenceUnitManager.class.getName());
+    private static final Logger logger =
+        Logger.getLogger(PersistenceUnitManager.class.getName());
+
     /**
      * The lookup result of <tt>PeristenceUnit</tt> instances.
      */
     private final Lookup.Result<PersistenceUnit> lookupResult;
+
     /**
      * The thread-safe set of listeners of the persistence unit registry.
      */
     private final Set<PersistenceUnitRegistryListener> registryListeners =
-            new CopyOnWriteArraySet<PersistenceUnitRegistryListener>();
+        new CopyOnWriteArraySet<PersistenceUnitRegistryListener>();
+
     /**
      * The singleton instance of registry change registryChangeEvent.
      */
     private final PersistenceUnitRegistryEvent registryChangeEvent =
-            new PersistenceUnitRegistryEvent(this);
+        new PersistenceUnitRegistryEvent(this);
 
     /**
      * Constructor.
      */
     private PersistenceUnitManager() {
-        lookupResult = Lookups.forPath(LAYER_FOLDER).lookupResult(PersistenceUnit.class);
+        lookupResult =
+            Lookups.forPath(LAYER_FOLDER).lookupResult(PersistenceUnit.class);
         lookupResult.addLookupListener(new LookupListener() {
-
             public void resultChanged(LookupEvent ev) {
                 fireChangeEvent();
             }
@@ -87,16 +96,18 @@ public final class PersistenceUnitManager {
      * @return a non-null array of <tt>PersistenceUnit</tt> instances.
      */
     public PersistenceUnit[] getUnits() {
-        Collection<? extends PersistenceUnit> units = lookupResult.allInstances();
-
+        Collection<? extends PersistenceUnit> units =
+            lookupResult.allInstances();
         if (logger.isLoggable(Level.FINER)) {
             String[] unitNames = new String[units.size()];
             int i = 0;
             for (PersistenceUnit unit : units) {
                 unitNames[i++] = unit.getName();
             }
+
             logger.log(Level.FINER, "{0} persistence unit(s) found: {1}",
-                    new Object[]{unitNames.length, Arrays.toString(unitNames)});
+                       new Object[] { unitNames.length,
+                                      Arrays.toString(unitNames) });
         }
 
         return units.toArray(new PersistenceUnit[units.size()]);
@@ -104,13 +115,12 @@ public final class PersistenceUnitManager {
 
     /**
      * Adds the specified persistence unit to the registry.
-     * 
+     *
      * @param pu the persistence unit to add, cannot be <tt>null</tt>
      * @throws NullPointerException if <tt>pu</tt> is <tt>null</tt>
-     * @throws PersistenceUnitManagerException if unexpected error occurs
+     * @throws PersistenceUnitException if unexpected error occurs
      */
-    public void addUnit(PersistenceUnit pu) throws
-            PersistenceUnitManagerException {
+    public void addUnit(PersistenceUnit pu) throws PersistenceUnitException {
         if (pu == null) {
             throw new NullPointerException("null persistence unit");
         }
@@ -123,20 +133,51 @@ public final class PersistenceUnitManager {
             PersistenceUnitConverter.writeToFileObject(pu);
         } catch (IOException ex) {
             logger.log(Level.WARNING,
-                    "IOException occurred when writing the peristence unit "
-                    + "to the file system: pu=" + pu
-                    + " message=" + ex.getMessage(),
-                    ex);
+                       "IOException occurred when writing the peristence unit "
+                       + "to the file system: pu=" + pu + " message="
+                       + ex.getMessage(), ex);
+            throw new PersistenceUnitException(
+                "Failed to write the persistence unit to the file system: "
+                + ex.getMessage(), ex);
+        }
 
-            throw new PersistenceUnitManagerException(
-                    "Failed to write the persistence unit to the file system: "
-                    + ex.getMessage(), ex);
+        if (logger.isLoggable(Level.FINER)) {
+            logger.log(Level.FINER, "Successfully added persistence unit: {0}",
+                       pu.getName());
+        }
+    }
+
+    /**
+     * Removes the specified persistence unit from the registry.
+     *
+     * @param unit the persistence unit to remove, cannot be <tt>null</tt>
+     * @throws NullPointerException if <tt>unit</tt> is <tt>null</tt>
+     * @throws PersistenceUnitException if unexpected error occurs
+     */
+    public void removeUnit(PersistenceUnit unit)
+            throws PersistenceUnitException {
+        if (unit == null) {
+            throw new NullPointerException("null persistence unit");
+        }
+
+        if (logger.isLoggable(Level.FINER)) {
+            logger.log(Level.FINER, "Removing persistence unit: " + unit);
+        }
+
+        try {
+            PersistenceUnitConverter.remove(unit);
+        } catch (IOException ex) {
+            logger.log(Level.WARNING,
+                       "Failed to remove the peristence unit: " + unit, ex);
+            throw new PersistenceUnitException(
+                "Failed to remove the persistence unit: " + unit + ": "
+                + ex.getMessage(), ex);
         }
 
         if (logger.isLoggable(Level.FINER)) {
             logger.log(Level.FINER,
-                    "Successfully added persistence unit: {0}",
-                    pu.getName());
+                       "Successfully removed persistence unit: "
+                       + unit.getName());
         }
     }
 
@@ -150,6 +191,7 @@ public final class PersistenceUnitManager {
         if (listener == null) {
             throw new NullPointerException("null listener");
         }
+
         registryListeners.add(listener);
     }
 
@@ -164,14 +206,14 @@ public final class PersistenceUnitManager {
         if (listener == null) {
             throw new NullPointerException("null listener");
         }
+
         registryListeners.remove(listener);
     }
 
     private void fireChangeEvent() {
         if (logger.isLoggable(Level.FINER)) {
-            logger.finer(
-                    "The persistence unit registry changed, "
-                    + "notifying all registered listeners");
+            logger.finer("The persistence unit registry changed, "
+                         + "notifying all registered listeners");
         }
 
         for (PersistenceUnitRegistryListener listener : registryListeners) {
@@ -179,10 +221,10 @@ public final class PersistenceUnitManager {
         }
 
         if (logger.isLoggable(Level.FINER)) {
-            logger.log(Level.FINER,
-                    "The persistence unit registry changed, "
-                    + "{0} listener(s) were notified.",
-                    registryListeners.size());
+            logger.log(
+                Level.FINER,
+                "The persistence unit registry changed, "
+                + "{0} listener(s) were notified.", registryListeners.size());
         }
     }
 }

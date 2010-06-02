@@ -1,5 +1,5 @@
 /*
- * @(#)AbstractCollectionDescriptor.java   10/05/27
+ * @(#)AbstractCollectionDescriptor.java   10/05/28
  *
  * Copyright (c) 2010 Roger Suen(SUNRUJUN)
  *
@@ -23,9 +23,10 @@ public abstract class AbstractCollectionDescriptor
         extends NonLeafDataDescriptor {
     private final Class elementType;
 
-    protected AbstractCollectionDescriptor(Object data, Class dataType,
-            Class elementType, DataDescriptorProvider provider) {
-        super(data, dataType, provider);
+    protected AbstractCollectionDescriptor(DataDescriptor parent, Object data,
+            Class dataType, Class elementType,
+            DataDescriptorBuilder provider) {
+        super(parent, data, dataType, provider);
         this.elementType = elementType;
 
         // populate children
@@ -35,7 +36,9 @@ public abstract class AbstractCollectionDescriptor
             int index = 0;
             Iterator iterator = getElementIterator();
             while (iterator.hasNext()) {
-                children.add(createElementDescriptor(iterator.next(), index++));
+                DataDescriptor dataDescriptor =
+                    createElementDescriptor(iterator.next());
+                children.add(new ElementDescriptor(dataDescriptor, index++));
             }
         }
     }
@@ -44,19 +47,18 @@ public abstract class AbstractCollectionDescriptor
 
     protected abstract Iterator getElementIterator();
 
+    protected DataDescriptor createElementDescriptor(Object element) {
+        DataDescriptor wrapped = builder.createDataDescriptor(this, element,
+                                     elementType);
+        return wrapped;
+    }
+
     @Override
     public String getDisplayValue() {
         return "<" + getElementCount() + " item(s)>";
     }
 
-    private ElementDescriptor createElementDescriptor(Object element,
-            int index) {
-        DataDescriptor wrapped = provider.createDataDescriptor(element,
-                                     elementType);
-        return new ElementDescriptor(wrapped, index);
-    }
-
-    private class ElementDescriptor extends ProxyDataDescriptor {
+    private class ElementDescriptor extends ProxyDescriptor {
         private final int index;
 
         private ElementDescriptor(DataDescriptor dataDescriptor, int index) {

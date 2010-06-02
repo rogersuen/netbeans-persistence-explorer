@@ -1,5 +1,5 @@
 /*
- * @(#)PlainDataDescriptor.java   10/05/26
+ * @(#)PlainDataDescriptor.java   10/05/28
  *
  * Copyright (c) 2010 Roger Suen(SUNRUJUN)
  *
@@ -54,14 +54,15 @@ public class PlainDataDescriptor extends DataDescriptorBase {
         //primitive2Wrapper.put(Void.TYPE, Void.class);
     }
 
-    private PlainDataDescriptor(Object data, Class type,
-                                DataDescriptorProvider provider) {
-        super(data, type, provider);
+    private PlainDataDescriptor(DataDescriptor parent, Object data, Class type,
+                                DataDescriptorBuilder provider) {
+        super(parent, data, type, provider);
     }
 
-    public static PlainDataDescriptor createPlainDataDescriptor(Object data,
-            Class declaredType, DataDescriptorProvider provider) {
-        return new PlainDataDescriptor(data, declaredType, provider);
+    public static PlainDataDescriptor createPlainDataDescriptor(
+            DataDescriptor parent, Object data, Class declaredType,
+            DataDescriptorBuilder provider) {
+        return new PlainDataDescriptor(parent, data, declaredType, provider);
     }
 
     /**
@@ -91,14 +92,14 @@ public class PlainDataDescriptor extends DataDescriptorBase {
      *                                  data is not compatible to the specified
      *                                  declared type.
      */
-    static void checkTypeCompatibility(Object data, Class declaredType) {
+    static void checkTypeCompatibility(Object data, Class<?> declaredType) {
         if ((data == null) && (declaredType == null)) {
             throw new IllegalArgumentException(
                 "Must specify the type if the given data value is null");
         }
 
         if ((data != null) && (declaredType != null)) {
-            Class actualType = data.getClass();
+            Class<?> actualType = data.getClass();
             if ((declaredType.isPrimitive()
                     && (primitive2Wrapper.get(declaredType)
                         != actualType)) || (!declaredType.isPrimitive()
@@ -114,7 +115,7 @@ public class PlainDataDescriptor extends DataDescriptorBase {
 
     @Override
     public Icon getIcon() {
-        if (getDataType().isPrimitive()) {
+        if (getDeclaredType().isPrimitive()) {
             return ICON_PRIMITIVE;
         } else {
             return ICON_POJO;
