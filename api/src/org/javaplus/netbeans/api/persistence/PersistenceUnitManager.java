@@ -39,7 +39,7 @@ public final class PersistenceUnitManager {
      * The constant holds the name of layer folder in which all
      * persistence units are registered.
      */
-    public static final String LAYER_FOLDER = "Persistence/PersistenceUnits";
+    public static final String LAYER_FOLDER = "Persistence/Units";
 
     /**
      * The singleton default instance.

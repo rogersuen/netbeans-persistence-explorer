@@ -4,7 +4,7 @@
     <folder name="Persistence">
         <folder name="Providers">
         </folder>
-        <folder name="PersistenceUnits">
+        <folder name="Units">
         </folder>
 
         <folder name="Explorer">
