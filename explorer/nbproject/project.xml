@@ -4,24 +4,8 @@
     <configuration>
         <data xmlns="http://www.netbeans.org/ns/nb-module-project/3">
             <code-name-base>org.javaplus.netbeans.persistence</code-name-base>
-            <suite-component/>
+            <standalone/>
             <module-dependencies>
-                <dependency>
-                    <code-name-base>org.javaplus.netbeans.api.persistence</code-name-base>
-                    <build-prerequisite/>
-                    <compile-dependency/>
-                    <run-dependency>
-                        <specification-version>1.0</specification-version>
-                    </run-dependency>
-                </dependency>
-                <dependency>
-                    <code-name-base>org.javaplus.netbeans.libs.jpa20</code-name-base>
-                    <build-prerequisite/>
-                    <compile-dependency/>
-                    <run-dependency>
-                        <specification-version>2.0</specification-version>
-                    </run-dependency>
-                </dependency>
                 <dependency>
                     <code-name-base>org.netbeans.core.ide</code-name-base>
                     <build-prerequisite/>
@@ -166,18 +150,11 @@
                     </test-dependency>
                 </test-type>
             </test-dependencies>
-            <public-packages>
-                <package>org.javaplus.netbeans.persistence.action</package>
-                <package>org.javaplus.netbeans.persistence.connection</package>
-                <package>org.javaplus.netbeans.persistence.explorer.action</package>
-                <package>org.javaplus.netbeans.persistence.explorer.dialog</package>
-                <package>org.javaplus.netbeans.persistence.explorer.node</package>
-                <package>org.javaplus.netbeans.persistence.ql.editor</package>
-                <package>org.javaplus.netbeans.persistence.ql.editor.action</package>
-                <package>org.javaplus.netbeans.persistence.ql.query</package>
-                <package>org.javaplus.netbeans.persistence.ql.view</package>
-                <package>org.javaplus.netbeans.persistence.ql.view.model</package>
-            </public-packages>
+            <public-packages/>
+            <class-path-extension>
+                <runtime-relative-path>ext/javax.persistence_2.0.0.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/javax.persistence_2.0.0.jar</binary-origin>
+            </class-path-extension>
         </data>
     </configuration>
 </project>

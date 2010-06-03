@@ -1,0 +1,123 @@
+<p>
+    Persistence Explorer plugin for NetBeans is a convenient tool that mimics
+    the Databases modules in NetBeans, providing support to JPA 2.0 with
+    the following features:
+</p>
+<ul>
+    <li>
+        Manage the registry of persistence providers and persistence units 
+        in the Services explorer view of NetBeans.
+    </li>
+    <li>
+        Browse the metamodel of a registered persistence unit.
+    </li>
+    <li>
+        Execute queries from within a simple JPQL editor against a registered
+        persistence unit, and view the results.
+    </li>
+</ul>
+<p>
+    <a href="http://plugins.netbeans.org/nbpluginportal/files/images/1275540362225_screenshot.jpg">Here</a>
+    is a screen shot.
+</p>
+<p>
+    By now, it's just a <font color="red"><b>experimental</b></font> version
+    with many limitations and known-issues, but it's still ideal for beginners
+    of JPA 2.0 (like me:) to learn the API, run JPQL queries and then examine
+    the results without the need to deploy your applications. Sorry for the
+    temporary inconveniece, I'm working hard to improve its stability and
+    usability, preparing for the first stable release.
+</p>
+<p>
+    I'm totally a newbie to NetBeans module development. If you like the idea,
+    please rate it. Thanks!  That will be really helpful to encourage me to
+    continue the work.
+</p>
+<h3>Usage</h3>
+<p>
+    The module adds a node named "Persistence" to the Services explorer view
+    of the NetBeans. There are two child nodes, named "Persistence Providers"
+    and "Persistence Units". The persistence providers node is a registry that
+    allows user to register JPA 2.0 persistence provider implementations, and
+    the persistence units node allows to register user persistence unit
+    configuration files. Besides, the module depends on the Databases module's
+    JDBC driver registry to "open" the registered user persistence units.
+</p>
+<p>
+    To work with the module, following below steps:
+</p>
+<h4>Prepare Your Persistence Unit</h4>
+<p>
+    This module works ONLY with persistence unit configuration with the
+    <b>RESOURCE_LOCALE</b> tranaction type. Package your entity classes
+    and other required classes into jars together with a persistence.xml
+    configuration file. Make sure they meet JPA 2.0 requirement for Java SE
+    environment. For your convenience, here's an example of persistence.xml.
+</p>
+<pre>
+  &lt;persistence-unit name="HrEclipselinkResourceLocalPu" transaction-type="RESOURCE_LOCAL"&gt;
+    &lt;provider&gt;org.eclipse.persistence.jpa.PersistenceProvider&lt;/provider&gt;
+    &lt;class&gt;org.javaplus.example.hr.Department&lt;/class&gt;
+    &lt;class&gt;org.javaplus.example.hr.Employee&lt;/class&gt;
+    &lt;class&gt;org.javaplus.example.hr.Project&lt;/class&gt;
+    &lt;properties&gt;
+      &lt;property name="eclipselink.logging.level" value="FINE"/&gt;
+      &lt;property name="eclipselink.ddl-generation" value="create-tables"/&gt;
+      &lt;property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/hr"/&gt;
+      &lt;property name="javax.persistence.jdbc.password" value="hradm"/&gt;
+      &lt;property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/&gt;
+      &lt;property name="javax.persistence.jdbc.user" value="hradm"/&gt;
+    &lt;/properties&gt;
+  &lt;/persistence-unit&gt;
+</pre>
+<h4>Register Your Persistence Unit</h4>
+<p>
+    Once packaging is done, register your persistence unit to the explorer,
+    by right-click the "Persistence Units", choose "New Persistence Unit",
+    and fill up the form. Add all jars of your persistence unit to the list.
+    The configuration files in all jars will be resolved automatically.
+    Choose the configuration file and the unit name. Fill up other optional
+    fields if needed. Make sure all files needed by your unit are registered,
+    and the unit is valid.
+</p>
+<h4>Register Persistence Provider</h4>
+<p>
+    The persistence provider implementaion must be registered in the explorer
+    in order to open and work with your persistence units.
+</p>
+<p>
+    Open the provider registration form by right-click the persistence
+    providers node, choose "New Peristence Provider", fill up the form by
+    adding all required jars and naming the provider with a simple short name.
+    Check your provider's documentation, make sure all needed jars are added.
+</p>
+<h4>Register JDBC Driver if Needed</h4>
+<p>
+    Make sure the JDBC driver needed by your unit is registered in the
+    Databases explorer of the NetBeans. The persistence explorer will try to
+    find required JDBC driver from there.
+</p>
+<h4>Work with Your Persistence Unit</h4>
+<p>
+    Before working with your persistence units, examine carefully the above
+    steps you have done, make sure everything is ready. The module <b>DOES
+    NO</b> validation at all by now, if anything goes wrong, it will just
+    simply throw an ugly exception. You can figure out the problem by examining
+    the stack trace. From the lower right corner of your IDE, you can find
+    the exception indicator. Sorry for the inconvenience, I will improve this
+    in the coming stable release.
+</p>
+<p>
+    Now you can open your persistence unit by right-click on it, choose "Open",
+    if everything is ok, congratulations, you can browse the metamodel of your
+    unit. Currently, the browsing of the metamodel is just experimental.
+</p>
+<p>
+    You can execute simple JPQL queries by choosing "Execute Command" from
+    the persistence unit's context menu. That will take you to a simple plain
+    JPQL editor. Tune your query, click "Execute Query", the result will
+    show in the lower table view.
+</p>
+
+<h3><font color="red">Important Limitations</font></h3>
+<h3><font color="red">Important Known Issues</font></h3>

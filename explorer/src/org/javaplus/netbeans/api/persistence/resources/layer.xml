@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE filesystem PUBLIC "-//NetBeans//DTD Filesystem 1.1//EN" "http://www.netbeans.org/dtds/filesystem-1_1.dtd">
+<filesystem>
+    <folder name="Persistence">
+        <folder name="Providers">
+        </folder>
+        <folder name="Units">
+        </folder>
+        <folder name="Explorer">
+            <folder name="Nodes">
+            </folder>
+        </folder>
+    </folder>
+    <folder name="xml">
+        <folder name="entities">
+            <folder name="JavaPlus">
+                <file name="DTD_Persistence_Provider_1_0" url="persistence-provider-1_0.dtd">
+                    <attr name="hint.originalPublicID" stringvalue="-//JavaPlus//DTD Persistence Provider 1.0//EN"/>
+                </file>
+                <file name="DTD_Persistence_Unit_1_0" url="persistence-unit-1_0.dtd">
+                    <attr name="hint.originalPublicID" stringvalue="-//JavaPlus//DTD Persistence Unit 1.0//EN"/>
+                </file>
+            </folder>
+        </folder>
+        <folder name="lookups">
+            <folder name="JavaPlus">
+                <file name="DTD_Persistence_Provider_1_0.instance">
+                    <attr name="instanceClass" stringvalue="org.javaplus.netbeans.api.persistence.PersistenceProviderEnvironmentProvider"/>
+                    <attr name="instanceOf" stringvalue="org.openide.loaders.Environment$Provider"/>
+                    <attr name="instanceCreate" methodvalue="org.javaplus.netbeans.api.persistence.PersistenceProviderEnvironmentProvider.getInstance"/>
+                </file>
+                <file name="DTD_Persistence_Unit_1_0.instance">
+                    <attr name="instanceClass" stringvalue="org.javaplus.netbeans.api.persistence.PersistenceUnitEnvironmentProvider"/>
+                    <attr name="instanceOf" stringvalue="org.openide.loaders.Environment$Provider"/>
+                    <attr name="instanceCreate" methodvalue="org.javaplus.netbeans.api.persistence.PersistenceUnitEnvironmentProvider.getInstance"/>
+                </file>
+            </folder>
+        </folder>
+    </folder>
+</filesystem>
