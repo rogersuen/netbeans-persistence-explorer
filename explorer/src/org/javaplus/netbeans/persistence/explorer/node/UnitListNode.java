@@ -12,14 +12,14 @@
  */
 package org.javaplus.netbeans.persistence.explorer.node;
 
-import org.javaplus.netbeans.api.persistence.explorer.node.NodeBase;
+import org.javaplus.netbeans.api.persistence.explorer.node.FolderNodeBase;
 import org.openide.util.NbBundle;
 
 /**
  *
  * @author Roger Suen
  */
-public class UnitListNode extends NodeBase {
+public class UnitListNode extends FolderNodeBase {
 
     public static final String LAYER_FOLDER = "UnitListNode";
     private static UnitListNode instance;
@@ -42,7 +42,6 @@ public class UnitListNode extends NodeBase {
         setName("UnitListNode");
         setShortDescription(NbBundle.getMessage(UnitListNode.class,
                 "UnitListNode.SHORT_DESCRIPTION"));
-        setIconBaseWithExtension(FOLDER_ICON_BASE);
 
         // dynamic properties
         updateProperties();

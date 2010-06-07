@@ -1,5 +1,5 @@
 /*
- * @(#)PersistenceProviderNode.java   10/04/20
+ * @(#)EntityTypeListNode.java   10/06/07
  *
  * Copyright (c) 2010 Roger Suen(SUNRUJUN)
  *
@@ -10,19 +10,20 @@
  * http://www.apache.org/licenses/LICENSE-2.0
  *
  */
+
 package org.javaplus.netbeans.persistence.explorer.node;
 
-import javax.persistence.metamodel.Metamodel;
-import org.javaplus.netbeans.api.persistence.explorer.node.NodeBase;
+import org.javaplus.netbeans.api.persistence.explorer.node.FolderNodeBase;
+
 import org.openide.util.NbBundle;
 
+import javax.persistence.metamodel.Metamodel;
 
 /**
  *
  * @author roger
  */
-public class EntityTypeListNode extends NodeBase {
-
+public class EntityTypeListNode extends FolderNodeBase {
     public static final String LAYER_FOLDER = "EntityTypeListNode";
     private final Metamodel metamodel;
 
@@ -30,6 +31,7 @@ public class EntityTypeListNode extends NodeBase {
         if (metamodel == null) {
             throw new NullPointerException("null metamodel");
         }
+
         this.metamodel = metamodel;
         this.lookup.getInstanceContent().add(metamodel);
         initProperties();
@@ -41,11 +43,11 @@ public class EntityTypeListNode extends NodeBase {
     }
 
     private void initProperties() {
+
         // immutable properties
         setName("EntityTypeListNode");
         setShortDescription(NbBundle.getMessage(UnitListNode.class,
                 "EntityTypeListNode.SHORT_DESCRIPTION"));
-        setIconBaseWithExtension(FOLDER_ICON_BASE);
 
         // dynamic properties
         updateProperties();
@@ -53,10 +55,11 @@ public class EntityTypeListNode extends NodeBase {
 
     @Override
     protected void updateProperties() {
+
         // update display name
         int childCount = getChildren().getNodesCount(true);
         String displayName = NbBundle.getMessage(UnitListNode.class,
-                "EntityTypeListNode.DISPLAY_NAME", childCount);
+                                 "EntityTypeListNode.DISPLAY_NAME", childCount);
         setDisplayName(displayName);
     }
 }

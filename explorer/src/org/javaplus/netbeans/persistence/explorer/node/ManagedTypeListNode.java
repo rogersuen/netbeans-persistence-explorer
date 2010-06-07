@@ -13,7 +13,7 @@
 package org.javaplus.netbeans.persistence.explorer.node;
 
 import javax.persistence.metamodel.Metamodel;
-import org.javaplus.netbeans.api.persistence.explorer.node.NodeBase;
+import org.javaplus.netbeans.api.persistence.explorer.node.FolderNodeBase;
 import org.openide.util.NbBundle;
 
 
@@ -21,7 +21,7 @@ import org.openide.util.NbBundle;
  *
  * @author roger
  */
-public class ManagedTypeListNode extends NodeBase {
+public class ManagedTypeListNode extends FolderNodeBase {
 
     public static final String LAYER_FOLDER = "ManagedTypeListNode";
     private final Metamodel metamodel;
@@ -45,7 +45,6 @@ public class ManagedTypeListNode extends NodeBase {
         setName("ManagedTypeListNode");
         setShortDescription(NbBundle.getMessage(UnitListNode.class,
                 "ManagedTypeListNode.SHORT_DESCRIPTION"));
-        setIconBaseWithExtension(FOLDER_ICON_BASE);
 
         // dynamic properties
         updateProperties();

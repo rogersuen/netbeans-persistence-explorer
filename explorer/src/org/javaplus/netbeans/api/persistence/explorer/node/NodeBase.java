@@ -80,13 +80,6 @@ public abstract class NodeBase extends AbstractNode {
      */
     public static final String LAYER_FOLDER_ACTIONS = "/Actions";
 
-    /**
-     * The base name of the default folder icon.
-     */
-    protected static final String DEFAULT_FOLDER_ICON_BASE =
-        "org/javaplus/netbeans/api/persistence/explorer/node/resources/"
-        + "defaultFolder.gif";
-
     //
     // Private constants
     //

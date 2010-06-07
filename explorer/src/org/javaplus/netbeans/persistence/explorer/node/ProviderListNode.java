@@ -1,5 +1,5 @@
 /*
- * @(#)ProviderListNode.java   10/04/19
+ * @(#)ProviderListNode.java   10/06/07
  *
  * Copyright (c) 2010 Roger Suen(SUNRUJUN)
  *
@@ -13,15 +13,15 @@
 
 package org.javaplus.netbeans.persistence.explorer.node;
 
-import org.javaplus.netbeans.api.persistence.explorer.node.NodeBase;
-import org.openide.util.NbBundle;
+import org.javaplus.netbeans.api.persistence.explorer.node.FolderNodeBase;
 
+import org.openide.util.NbBundle;
 
 /**
  *
  * @author Roger Suen
  */
-public class ProviderListNode extends NodeBase {
+public class ProviderListNode extends FolderNodeBase {
     public static final String LAYER_FOLDER = "ProviderListNode";
     private static ProviderListNode instance;
 
@@ -40,13 +40,21 @@ public class ProviderListNode extends NodeBase {
 
     private void initProperties() {
         setName("ProviderListNode");
-        setDisplayName(
-            NbBundle.getMessage(
-                ProviderListNode.class,
-                "ProviderListNode.DISPLAY_NAME"));
         setShortDescription(NbBundle.getMessage(ProviderListNode.class,
                 "ProviderListNode.SHORT_DESCRIPTION"));
-        setIconBaseWithExtension(FOLDER_ICON_BASE);
+
+        // dynamic properties
+        updateProperties();
+    }
+
+    @Override
+    protected void updateProperties() {
+
+        // update display name
+        int childCount = getChildren().getNodesCount(true);
+        String displayName = NbBundle.getMessage(ProviderListNode.class,
+                                 "ProviderListNode.DISPLAY_NAME", childCount);
+        setDisplayName(displayName);
     }
 
     @Override
